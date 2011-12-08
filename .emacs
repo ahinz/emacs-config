@@ -1,6 +1,6 @@
-(add-to-list 'load-path "/home/likewise-open/AZVA-INT/ahinz/.emacs_modes/scala-mode")
-(add-to-list 'load-path "/home/likewise-open/AZVA-INT/ahinz/src/open/scala/ensime/dist/elisp")
-(add-to-list 'load-path "/home/likewise-open/AZVA-INT/ahinz/.emacs_ext")
+(add-to-list 'load-path "~/.emacs.d/modes/scala")
+(add-to-list 'load-path "~/src/open/scala/ensime/dist/elisp")
+(add-to-list 'load-path "~/.emacs_ext")
 
 ;; Why would anyone really want there to me a menu bar?
 (menu-bar-mode 0)
@@ -54,12 +54,12 @@
 (global-font-lock-mode t)
 
 ;; TRAMP for remote file editing
-(add-to-list 'load-path "/home/likewise-open/AZVA-INT/ahinz/.emacs.d/plugins/tramp/lisp/")
+(add-to-list 'load-path "~/.emacs.d/plugins/tramp/lisp/")
 (require 'tramp)
 
-(add-to-list 'Info-default-directory-list "/home/likewise-open/AZVA-INT/ahinz/.emacs.d/plugins/tramp/info/")
+(add-to-list 'Info-default-directory-list "~/.emacs.d/plugins/tramp/info/")
 
-(add-to-list 'load-path "/home/likewise-open/AZVA-INT/ahinz/.emacs.d/plugins/")
+(add-to-list 'load-path "~/.emacs.d/plugins/")
 
 (autoload 'ack-same "full-ack" nil t)
 (autoload 'ack "full-ack" nil t)
@@ -68,5 +68,5 @@
 
 (setq ack-executable "/usr/bin/ack-grep")
 
-(add-to-list 'load-path "/home/likewise-open/AZVA-INT/ahinz/.emacs.d/plugins/fuzzy-finder")
+(add-to-list 'load-path "~/.emacs.d/plugins/fuzzy-finder")
 (require 'fuzzy-find-in-project)
