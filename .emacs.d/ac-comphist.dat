@@ -1,0 +1,30 @@
+((("dir2neighborFwd" .
+   [0 0 1 1 0 0 0 0 0 0 0 0 0 0 0])
+  ("ne" .
+   [1 0])
+  ("neighbors" .
+   [0 0 0 0 0 1 0 0 0])
+  ("neighborFlows" .
+   [0 0 0 0 0 0 0 0 0 0 0 0 1])
+  ("inflowNeighbors" .
+   [0 0 0 0 0 0 0 0 0 0 0 0 0 0 2])
+  ("c" .
+   [1])
+  ("areaAverage" .
+   [0 0 0 0 0 0 0 0 0 0 1])
+  ("generateSubwatershedAreaStarterSet" .
+   [0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0])
+  ("MinValue" .
+   [0 1 0 0 0 0 0 0])
+  ("geoattrs" .
+   [0 2 0 0 0 0 0 0])
+  ("extent" .
+   [1 0 0 0 0 0])
+  ("xmax" .
+   [0 1 0 0])
+  ("cellwidth" .
+   [0 1 0 0 0 0 0 0 0])
+  ("i" .
+   [1])
+  ("Point" .
+   [1 0 0 0 0])))
