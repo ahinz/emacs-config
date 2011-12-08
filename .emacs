@@ -1,5 +1,5 @@
 (add-to-list 'load-path "~/.emacs.d/modes/scala")
-(add-to-list 'load-path "~/src/open/scala/ensime/dist/elisp")
+(add-to-list 'load-path "~/.emacs.d/modes/ensime")
 (add-to-list 'load-path "~/.emacs_ext")
 
 ;; Why would anyone really want there to me a menu bar?
