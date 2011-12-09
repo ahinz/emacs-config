@@ -1,3 +1,4 @@
+(add-to-list 'load-path "~/.emacs.d/modes/")
 (add-to-list 'load-path "~/.emacs.d/modes/scala")
 (add-to-list 'load-path "~/.emacs.d/modes/ensime")
 (add-to-list 'load-path "~/.emacs.d/plugins")
@@ -71,3 +72,15 @@
 
 (add-to-list 'load-path "~/.emacs.d/plugins/fuzzy-finder")
 (require 'fuzzy-find-in-project)
+
+
+;;;;;;;;;;
+;; 80 character vertical line
+(require 'vline)
+
+(setq vline-use-timer nil)
+(setq vline-visual nil)
+
+(defsubst vline-current-column() 80)
+(defsubst vline-invisible-p (pos) nil)
+(defsubst vline-visual-p () nil)
