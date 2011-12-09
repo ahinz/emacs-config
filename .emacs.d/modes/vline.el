@@ -1,4 +1,4 @@
-;;; vline.el --- show vertical line (column highlighting) mode.
+;; vline.el --- show vertical line (column highlighting) mode.
 
 ;; Copyright (C) 2002, 2008, 2009, 2010 by Taiki SUGAWARA <buzz.taiki@gmail.com>
 
@@ -24,66 +24,8 @@
 ;; the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 ;; Boston, MA 02110-1301, USA.
 
-;;; Usage
-;; put followings your .emacs
-;;   (require 'vline)
-;;
-;; if you display a vertical line, type M-x vline-mode. `vline-mode' doesn't
-;; effect other buffers, because it is a buffer local minor mode. if you hide
-;; a vertical line, type M-x vline-mode again.
-;;
-;; if you display a vertical line in all buffers, type M-x vline-global-mode.
-;;
-;; `vline-style' provides a display style of vertical line. see
-;; `vline-style' docstring.
-;;
-;; if you don't want to visual line highlighting (ex. for performance
-;; issue), please to set `vline-visual' to nil.
-;;
-;; if you don't want to use timer (ex. you want to highlight column
-;; during moving cursors), please to set `vline-use-timer' to nil.
-
-;;; Changes
-;; 2010-02-02 taiki
-;; improve performance.
-
-;; 2009-08-26 taiki
-;; support org-mode, outline-mode
-
-;; 2009-08-18 taiki
-;; add autoload cookies.
-
-;; 2009-08-18 taiki
-;; fix last line highlighting probrem.
-
-;; 2009-08-18 taiki
-;; support visual line highlighting.
-;; - Added face vline-visual.
-;; - Added defcustom vline-visual-face.
-;; - Added defcustom vline-visual.
-;;
-;; 2009-08-17 taiki
-;; fix continuas line problem.
-;; - Don't display vline when cursor into fringe
-;; - Don't expand eol more than window width.
-;;
-;; 2008-10-22 taiki
-;; fix coding-system problem.
-;; - Added vline-multiwidth-space-list
-;; - Use ucs code-point for japanese fullwidth space.
-;; 
-;; 2008-01-22 taiki
-;; applied patch from Lennart Borgman
-;; - Added :group 'vline
-;; - Added defcustom vline-current-window-only
-;; - Added header items to simplify for users
-
-;;; TODO:
-;; - track window-scroll-functions, window-size-change-functions.
-;; - consider other minor modes (using {after,before}-string overlay).
-;; - don't use {post,after}-command-hook for performance??
-
-;;; Code:
+;; Edited by Adam Hinz
+;; Now you specify a given column (M-x vline-column)
 
 (defvar vline-overlay-table-size 200)
 (defvar vline-overlay-table (make-vector vline-overlay-table-size nil))
@@ -93,7 +35,6 @@
    ?\t
    (decode-char 'ucs #x3000)		; japanese fullwidth space
    ))
-(defvar vline-timer nil)
 
 (defcustom vline-style 'face
   "This variable holds vertical line display style.
@@ -146,12 +87,6 @@ if `truncate-lines' is non-nil."
 	  (const force))
   :group 'vline)
 
-(defcustom vline-use-timer t
-  "If non-nil then vline use idle timer instead
-of (post|after)-command-hook."
-  :type 'boolean
-  :group 'vline)
-
 (defcustom vline-idle-time 0.02
   "Idle time for highlighting column."
   :type 'number
@@ -166,10 +101,7 @@ of (post|after)-command-hook."
   (if vline-mode
       (progn
 	(add-hook 'pre-command-hook 'vline-pre-command-hook nil t)
-	(if vline-use-timer
-	    (vline-set-timer)
-	  (add-hook 'post-command-hook 'vline-post-command-hook nil t)))
-    (vline-cancel-timer)
+        (add-hook 'post-command-hook 'vline-post-command-hook nil t))
     (vline-clear)
     (remove-hook 'pre-command-hook 'vline-pre-command-hook t)
     (remove-hook 'post-command-hook 'vline-post-command-hook t)))
@@ -190,19 +122,6 @@ of (post|after)-command-hook."
   (when (and vline-mode (not (minibufferp)))
     (vline-show)))
 
-(defun vline-set-timer ()
-  (setq vline-timer
-	(run-with-idle-timer
-	 vline-idle-time t 'vline-timer-callback)))
-
-(defun vline-cancel-timer ()
-  (when (timerp vline-timer)
-    (cancel-timer vline-timer)))
-
-(defun vline-timer-callback ()
-  (when (and vline-mode (not (minibufferp)))
-    (vline-show)))
-
 (defun vline-clear ()
   (mapcar (lambda (ovr)
 	    (and ovr (delete-overlay ovr)))
@@ -214,36 +133,35 @@ of (post|after)-command-hook."
 (defsubst vline-visual-p ()
   (or (eq vline-visual 'force)
       (and (not truncate-lines)
-	   vline-visual)))
+           vline-visual)))
   
-(defsubst vline-current-column ()
-  (if (or (not (vline-visual-p))
-	  ;; margin for full-width char
-	  (< (1+ (current-column)) (window-width)))
-      (current-column)
-    ;; hmm.. posn-at-point is not consider tab width.
-    (- (current-column)
-       (save-excursion
-	 (vertical-motion 0)
-	 (current-column)))))
+(defvar vline-column  80
+  "Column to display line on")
+
+(defun vline-column (col)
+  "Sets the new vline column"
+  (interactive "nSet vline highlight column: ")
+  (setq vline-column col))
+
+(defsubst vline-current-column () vline-column)
 
 (defsubst vline-move-to-column (col &optional bol-p)
   (if (or (not (vline-visual-p))
-	  ;; margin for full-width char
-	  (< (1+ (current-column)) (window-width)))
+          ;; margin for full-width char
+          (< (1+ (current-column)) (window-width)))
       (move-to-column col)
     (unless bol-p
       (vertical-motion 0))
     (let ((bol-col (current-column)))
       (- (move-to-column (+ bol-col col))
-	 bol-col))))
+         bol-col))))
 
 (defsubst vline-invisible-p (pos)
   (let ((inv (get-char-property pos 'invisible)))
     (and inv
-	 (or (eq buffer-invisibility-spec t)
-	     (memq inv buffer-invisibility-spec)
-	     (assq inv buffer-invisibility-spec)))))
+         (or (eq buffer-invisibility-spec t)
+             (memq inv buffer-invisibility-spec)
+             (assq inv buffer-invisibility-spec)))))
 
 (defsubst vline-forward (n)
   (unless (memq n '(-1 0 1))

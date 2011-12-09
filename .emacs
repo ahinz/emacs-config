@@ -78,9 +78,11 @@
 ;; 80 character vertical line
 (require 'vline)
 
-(setq vline-use-timer nil)
-(setq vline-visual nil)
+;;(setq vline-use-timer nil)
+;;(setq vline-visual nil)
 
-(defsubst vline-current-column() 80)
-(defsubst vline-invisible-p (pos) nil)
-(defsubst vline-visual-p () nil)
+;;(defsubst vline-current-column() 80)
+;;(defsubst vline-invisible-p (pos) nil)
+;;(defsubst vline-visual-p () nil)
+
+(setq vline-column 80)
