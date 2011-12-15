@@ -1,8 +1,8 @@
 (add-to-list 'load-path "~/.emacs.d/modes/")
+(add-to-list 'load-path "~/.emacs.d/modes/multi-web-mode")
 (add-to-list 'load-path "~/.emacs.d/modes/scala")
 (add-to-list 'load-path "~/.emacs.d/modes/ensime")
 (add-to-list 'load-path "~/.emacs.d/plugins")
-(add-to-list 'load-path "~/.emacs_ext")
 
 ;; Why would anyone really want there to me a menu bar?
 (menu-bar-mode 0)
@@ -73,6 +73,14 @@
 (add-to-list 'load-path "~/.emacs.d/plugins/fuzzy-finder")
 (require 'fuzzy-find-in-project)
 
+;; Multi mode
+(require 'multi-web-mode)
+(setq mweb-default-major-mode 'html-mode)
+(setq mweb-tags '((php-mode "<\\?php\\|<\\? \\|<\\?=" "\\?>")
+                  (js-mode "<script [^>]*>" "</script>")
+                  (css-mode "<style +type=\"text/css\"[^>]*>" "</style>")))
+(setq mweb-filename-extensions '("php" "htm" "html" "ctp" "phtml" "php4" "php5"))
+(multi-web-global-mode 1)
 
 ;;;;;;;;;;
 ;; 80 character vertical line
