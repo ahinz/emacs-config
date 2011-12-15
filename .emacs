@@ -73,6 +73,8 @@
 (add-to-list 'load-path "~/.emacs.d/plugins/fuzzy-finder")
 (require 'fuzzy-find-in-project)
 
+(global-set-key (kbd "C-c f") 'fuzzy-find-in-project)
+
 ;; Multi mode
 (require 'multi-web-mode)
 (setq mweb-default-major-mode 'html-mode)
@@ -83,14 +85,15 @@
 (multi-web-global-mode 1)
 
 ;;;;;;;;;;
+;; Sane buffer names
+(require 'uniquify) 
+(setq 
+ uniquify-buffer-name-style 'post-forward
+ uniquify-separator ":")
+
+
+;;;;;;;;;;
 ;; 80 character vertical line
 (require 'vline)
-
-;;(setq vline-use-timer nil)
-;;(setq vline-visual nil)
-
-;;(defsubst vline-current-column() 80)
-;;(defsubst vline-invisible-p (pos) nil)
-;;(defsubst vline-visual-p () nil)
 
 (setq vline-column 80)
