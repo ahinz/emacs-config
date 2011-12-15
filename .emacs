@@ -73,7 +73,7 @@
 (add-to-list 'load-path "~/.emacs.d/plugins/fuzzy-finder")
 (require 'fuzzy-find-in-project)
 
-(global-set-key (kbd "C-c f") 'fuzzy-find-in-project)
+(global-set-key (kbd "C-c v") 'fuzzy-find-in-project)
 
 ;; Multi mode
 (require 'multi-web-mode)
