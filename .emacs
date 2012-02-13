@@ -124,3 +124,13 @@
 (add-to-list 'ac-dictionary-directories "~/.emacs.d/plugins/auto-complete/ac-dict")
 (require 'auto-complete-config)
 (ac-config-default)
+
+(add-to-list 'load-path
+             "~/.emacs.d/plugins/yasnippet")
+(require 'yasnippet)
+(yas/global-mode 1)
+
+(add-to-list 'load-path "~/.emacs.d/plugins/ajc-java/")
+(require 'ajc-java-complete-config)
+(add-hook 'java-mode-hook 'ajc-java-complete-mode)
+(add-hook 'find-file-hook 'ajc-4-jsp-find-file-hook)
