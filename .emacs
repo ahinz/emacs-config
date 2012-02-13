@@ -85,6 +85,23 @@
 (multi-web-global-mode 1)
 
 ;;;;;;;;;;
+;; Terminal helpers
+(defun remote-term (new-buffer-name cmd &rest switches)
+  (setq term-ansi-buffer-name (concat "*" new-buffer-name "*"))
+  (setq term-ansi-buffer-name (generate-new-buffer-name term-ansi-buffer-name))
+  (setq term-ansi-buffer-name (apply 'make-term term-ansi-buffer-name cmd nil switches))
+  (set-buffer term-ansi-buffer-name)
+  (term-mode)
+  (term-char-mode)
+  (term-set-escape-char ?\C-x)
+  (switch-to-buffer term-ansi-buffer-name))
+
+(defun open-remote-ssh (host)
+  (interactive "sRemote host: ")
+  (remote-term host "ssh" host))
+  
+
+;;;;;;;;;;
 ;; Sane buffer names
 (require 'uniquify) 
 (setq 
@@ -97,3 +114,13 @@
 (require 'vline)
 
 (setq vline-column 80)
+
+
+
+;;;;;;;;;
+;; Java/IDEish stuff
+
+(add-to-list 'load-path "~/.emacs.d/plugins/auto-complete")    ; This may not be appeared if you have already added.
+(add-to-list 'ac-dictionary-directories "~/.emacs.d/plugins/auto-complete/ac-dict")
+(require 'auto-complete-config)
+(ac-config-default)
