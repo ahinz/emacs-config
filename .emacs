@@ -1,4 +1,6 @@
 (add-to-list 'load-path "~/.emacs.d/modes/")
+(add-to-list 'load-path "~/.emacs.d/modes/jabber/")
+(add-to-list 'load-path "~/.emacs.d/modes/jabber/compat")
 (add-to-list 'load-path "~/.emacs.d/modes/multi-web-mode")
 (add-to-list 'load-path "~/.emacs.d/modes/scala")
 (add-to-list 'load-path "~/.emacs.d/modes/ensime")
@@ -7,6 +9,34 @@
 (setq ido-enable-flex-matching t)
 (setq ido-everywhere t)
 (ido-mode 1)
+
+;; Use aspell instead of ispell (how well do uspell?)
+(setq ispell-program-name "aspell")
+(setq ispell-extra-args '("--sug-mode=ultra")) ;; Note: could use fast or normal but results in degraded performance
+(setq flyspell-issue-welcome-flag nil) ;; fix flyspell problem
+
+;; Use a better buffer switcher
+(global-set-key (kbd "C-x C-b") 'ibuffer)
+
+(global-set-key (kbd "C-c C-l e") 'erc-buffers)
+(global-set-key (kbd "C-c C-l t") 'term-buffers)
+
+(defun erc-buffers ()
+  (interactive)
+  (list-buffers-with-mode 'erc-mode))
+
+(defun term-buffers ()
+  (interactive)
+  (list-buffers-with-mode 'term-mode))
+
+(defun list-buffers-with-mode (mode)
+  (interactive "SBuffer Mode: ")
+  (progn
+    (ibuffer-bs-show)
+    (ibuffer-filter-disable)
+    (ibuffer-filter-by-used-mode mode)))
+
+
 
 ;; Why would anyone really want there to me a menu bar?
 (menu-bar-mode 0)
@@ -19,20 +49,30 @@
 (add-hook 'scala-mode-hook 'ensime-scala-mode-hook)
 
 (require 'clojure-mode)
+(require 'jabber-autoloads)
+
+(setq jabber-account-list
+    '(("hinz.adam@gmail.com" 
+       (:network-server . "talk.google.com")
+       (:connection-type . ssl))
+      ("ahinz@azavea.com"
+       (:network-server . "talk.google.com")
+       (:connection-type . ssl))))
 
 ;; Never write "\t" characters
 (setq-default indent-tabs-mode nil)
 (custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
+  ;; custom-set-variables was added by Custom.
+  ;; If you edit it by hand, you could mess it up, so be careful.
+  ;; Your init file should contain only one such instance.
+  ;; If there is more than one, they won't work right.
  '(backup-directory-alist (quote (("" . "/var/tmp/backup")))))
 (custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
+  ;; custom-set-faces was added by Custom.
+  ;; If you edit it by hand, you could mess it up, so be careful.
+  ;; Your init file should contain only one such instance.
+  ;; If there is more than one, they won't work right.
+ '(flyspell-incorrect ((t (:foreground "red" :underline t :weight bold))))
  '(font-lock-function-name-face ((t (:foreground "yellow" :weight bold)))))
 
 ;; Never write "\t" characters
