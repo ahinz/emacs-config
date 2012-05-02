@@ -36,8 +36,6 @@
     (ibuffer-filter-disable)
     (ibuffer-filter-by-used-mode mode)))
 
-
-
 ;; Why would anyone really want there to me a menu bar?
 (menu-bar-mode 0)
 
@@ -132,7 +130,7 @@
 
 ;;;;;;;;;;
 ;; Terminal helpers
-(defun remote-term (new-buffer-name cmd &rest switches)
+(defun mk-term (new-buffer-name cmd &rest switches)
   (setq term-ansi-buffer-name (concat "*" new-buffer-name "*"))
   (setq term-ansi-buffer-name (generate-new-buffer-name term-ansi-buffer-name))
   (setq term-ansi-buffer-name (apply 'make-term term-ansi-buffer-name cmd nil switches))
@@ -144,8 +142,13 @@
 
 (defun open-remote-ssh (host)
   (interactive "sRemote host: ")
-  (remote-term host "ssh" host))
-  
+  (mk-term host "ssh" host))
+
+(defun open-term (name)
+  (interactive "sName: ")
+  (mk-term name "bash"))
+
+(global-set-key (kbd "C-c n") 'open-term)
 
 ;;;;;;;;;;
 ;; Sane buffer names
