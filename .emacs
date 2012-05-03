@@ -5,15 +5,26 @@
 (add-to-list 'load-path "~/.emacs.d/modes/scala")
 (add-to-list 'load-path "~/.emacs.d/modes/ensime")
 (add-to-list 'load-path "~/.emacs.d/plugins")
+(add-to-list 'load-path "~/.emacs.d/themes")
 
 (setq ido-enable-flex-matching t)
 (setq ido-everywhere t)
 (ido-mode 1)
 
+(require 'tango-2-theme)
+
 ;; Use aspell instead of ispell (how well do uspell?)
 (setq ispell-program-name "aspell")
 (setq ispell-extra-args '("--sug-mode=ultra")) ;; Note: could use fast or normal but results in degraded performance
 (setq flyspell-issue-welcome-flag nil) ;; fix flyspell problem
+
+;; Autojoin
+(setq erc-autojoin-channels-alist
+      '(("azavea.com" "#azavea")
+        ("freenode.net" "#scala" "#opentreemap" "#opendatacatalog" "#pycsw")))
+
+(erc :server "irc.freenode.net" :port 6667 :nick "adammh")
+(erc :server "192.168.1.7" :port 6667 :nick "adam")
 
 ;; Use a better buffer switcher
 (global-set-key (kbd "C-x C-b") 'ibuffer)
@@ -38,6 +49,8 @@
 
 ;; Why would anyone really want there to me a menu bar?
 (menu-bar-mode 0)
+(tool-bar-mode 0)
+(scroll-bar-mode 0)
 
 ;; Scala Stuff
 (require 'scala-mode-auto)
@@ -139,6 +152,8 @@
   (term-char-mode)
   (term-set-escape-char ?\C-x)
   (switch-to-buffer term-ansi-buffer-name))
+
+(add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
 
 (defun open-remote-ssh (host)
   (interactive "sRemote host: ")
