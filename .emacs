@@ -12,19 +12,55 @@
 (ido-mode 1)
 
 (require 'tango-2-theme)
+(require 'paredit)
 
 ;; Use aspell instead of ispell (how well do uspell?)
 (setq ispell-program-name "aspell")
 (setq ispell-extra-args '("--sug-mode=ultra")) ;; Note: could use fast or normal but results in degraded performance
 (setq flyspell-issue-welcome-flag nil) ;; fix flyspell problem
 
-;; Autojoin
-(setq erc-autojoin-channels-alist
-      '(("azavea.com" "#azavea")
-        ("freenode.net" "#scala" "#opentreemap" "#opendatacatalog" "#pycsw")))
+;; Editing objc in a reasonable way...
+(setq objc-mode-hook (function (lambda ()
+                                 (setq indent-tabs-mode nil)
+                                 (setq c-indent-level 4)
+                                 (setq c-basic-offset 4))))
 
-(erc :server "irc.freenode.net" :port 6667 :nick "adammh")
-(erc :server "192.168.1.7" :port 6667 :nick "adam")
+;; I'm a wizard!
+(add-to-list 'magic-mode-alist
+                `(,(lambda ()
+                     (and (string= (file-name-extension buffer-file-name) "h")
+                          (re-search-forward "@\\<interface\\>" 
+					     magic-mode-regexp-match-limit t)))
+                  . objc-mode))
+
+;(push ".m" (cadr (assoc "\\.h\\" cc-other-file-alist)))
+;(push '("\\.m\\'" (".h")) cc-other-file-alist)
+(setq cc-other-file-alist `(("\\.m$" (".h"))
+                            ("\\.h$" (".m"))))
+
+(add-hook 'c-mode-common-hook
+          (lambda ()
+            (local-set-key (kbd "C-C o") 'ff-find-other-file)))
+
+(global-set-key (kbd "C-c e") 'yas/expand)
+
+;; Autojoin
+;; (setq erc-auto-query 'bury)
+(setq erc-auto-query 'buffer)
+
+(setq erc-autojoin-channels-alist
+       '(("azavea.com" "#azavea")
+         ("freenode.net" "#scala" "#opentreemap" "#opendatacatalog" "#pycsw" "#geotrellis")))
+
+(global-set-key (kbd "<up>") nil)
+(global-set-key (kbd "<right>") nil)
+(global-set-key (kbd "<left>") nil)
+(global-set-key (kbd "<down>") nil)
+
+(defun default-erc ()
+  (interactive)
+  (erc :server "irc.freenode.net" :port 6667 :nick "adammh")
+  (erc :server "192.168.1.7" :port 6667 :nick "adam"))
 
 ;; Use a better buffer switcher
 (global-set-key (kbd "C-x C-b") 'ibuffer)
@@ -162,6 +198,12 @@
 (defun open-term (name)
   (interactive "sName: ")
   (mk-term name "bash"))
+
+(open-term "tty0")
+(open-term "tty1")
+(open-term "tty2")
+(open-term "tty3")
+(open-term "tty4")
 
 (global-set-key (kbd "C-c n") 'open-term)
 
