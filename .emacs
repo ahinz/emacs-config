@@ -4,12 +4,23 @@
 (add-to-list 'load-path "~/.emacs.d/modes/multi-web-mode")
 (add-to-list 'load-path "~/.emacs.d/modes/scala")
 (add-to-list 'load-path "~/.emacs.d/modes/ensime")
+(add-to-list 'load-path "~/.emacs.d/modes/expand-region")
 (add-to-list 'load-path "~/.emacs.d/plugins")
 (add-to-list 'load-path "~/.emacs.d/themes")
+(add-to-list 'load-path "~/.emacs.d/site-lisp")
+(add-to-list 'load-path "~/.emacs.d/site-lisp/slime")
 
 (setq ido-enable-flex-matching t)
 (setq ido-everywhere t)
 (ido-mode 1)
+
+(global-set-key (kbd "C-c C-e") 'eval-buffer)
+(global-set-key (kbd "C-c M-e") 'eval-region)
+
+(require 'objc-mode-expansions)
+
+(require 'expand-region)
+(global-set-key (kbd "C-=") 'er/expand-region)
 
 (require 'tango-2-theme)
 (require 'paredit)
@@ -50,7 +61,7 @@
 
 (setq erc-autojoin-channels-alist
        '(("azavea.com" "#azavea")
-         ("freenode.net" "#scala" "#opentreemap" "#opendatacatalog" "#pycsw" "#geotrellis")))
+         ("freenode.net" "#scala" "#opentreemap" "#opendatacatalog" "#pycsw" "#geopython" "#geotrellis")))
 
 (global-set-key (kbd "<up>") nil)
 (global-set-key (kbd "<right>") nil)
@@ -95,7 +106,23 @@
 
 (add-hook 'scala-mode-hook 'ensime-scala-mode-hook)
 
+(require 'slime)
+(require 'slime-repl)
+(require 'slime-eldoc)
+(require 'slime-compile-presave)
+(require 'slime-frame-colors)
+
 (require 'clojure-mode)
+
+(add-hook 'slime-repl-mode-hook
+          (defun clojure-mode-slime-font-lock ()
+            (require 'clojure-mode)
+            (let (font-lock-mode)
+              (clojure-mode-font-lock-setup))))
+
+(defun turn-on-paredit () (paredit-mode 1))
+(add-hook 'clojure-mode-hook 'turn-on-paredit)
+
 (require 'jabber-autoloads)
 
 (setq jabber-account-list

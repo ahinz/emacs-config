@@ -1,0 +1,3 @@
+[submodule ".emacs.d/modes/expand-region"]
+	path = .emacs.d/modes/expand-region
+	url = git://github.com/magnars/expand-region.el.git
