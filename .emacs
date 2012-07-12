@@ -2,13 +2,15 @@
 (add-to-list 'load-path "~/.emacs.d/modes/jabber/")
 (add-to-list 'load-path "~/.emacs.d/modes/jabber/compat")
 (add-to-list 'load-path "~/.emacs.d/modes/multi-web-mode")
+(add-to-list 'load-path "~/.emacs.d/modes/js2/")
+(add-to-list 'load-path "~/.emacs.d/modes/js2-refactor/")
+(add-to-list 'load-path "~/.emacs.d/modes/mark-multiple/")
 (add-to-list 'load-path "~/.emacs.d/modes/scala")
 (add-to-list 'load-path "~/.emacs.d/modes/ensime")
 (add-to-list 'load-path "~/.emacs.d/modes/expand-region")
 (add-to-list 'load-path "~/.emacs.d/plugins")
 (add-to-list 'load-path "~/.emacs.d/themes")
 (add-to-list 'load-path "~/.emacs.d/site-lisp")
-(add-to-list 'load-path "~/.emacs.d/site-lisp/slime")
 
 (setq ido-enable-flex-matching t)
 (setq ido-everywhere t)
@@ -106,11 +108,10 @@
 
 (add-hook 'scala-mode-hook 'ensime-scala-mode-hook)
 
-(require 'slime)
-(require 'slime-repl)
-(require 'slime-eldoc)
-(require 'slime-compile-presave)
-(require 'slime-frame-colors)
+(require 'package)
+(add-to-list 'package-archives
+             '("marmalade" . "http://marmalade-repo.org/packages/") t)
+(package-initialize)
 
 (require 'clojure-mode)
 
@@ -248,7 +249,18 @@
 
 (setq vline-column 80)
 
+;;;;;;;;;;
+;; Javascript
+(autoload 'js2-mode "js2-mode" nil t)
+(add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
 
+(require 'js2-refactor)
+(require 'setup-slime-js)
+
+(add-hook 'css-mode-hook
+          (lambda ()
+            (define-key css-mode-map "\M-\C-x" 'slime-js-refresh-css)
+            (define-key css-mode-map "\C-c\C-r" 'slime-js-embed-css)))
 
 ;;;;;;;;;
 ;; Java/IDEish stuff

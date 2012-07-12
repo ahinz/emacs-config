@@ -1,3 +1,9 @@
 [submodule ".emacs.d/modes/expand-region"]
 	path = .emacs.d/modes/expand-region
 	url = git://github.com/magnars/expand-region.el.git
+[submodule ".emacs.d/modes/js2-refactor"]
+	path = .emacs.d/modes/js2-refactor
+	url = git://github.com/magnars/js2-refactor.el.git
+[submodule ".emacs.d/modes/mark-multiple"]
+	path = .emacs.d/modes/mark-multiple
+	url = git://github.com/magnars/mark-multiple.el.git
