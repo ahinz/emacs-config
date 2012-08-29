@@ -16,15 +16,6 @@
 [submodule ".emacs.d/modes/haskell-mode"]
 	path = .emacs.d/modes/haskell-mode
 	url = git://github.com/haskell/haskell-mode.git
-[submodule ".emacs.d/site-lisp/flim"]
-	path = .emacs.d/site-lisp/flim
-	url = git://github.com/wanderlust/flim.git
-[submodule ".emacs.d/site-lisp/apel"]
-	path = .emacs.d/site-lisp/apel
-	url = git://github.com/wanderlust/apel.git
-[submodule ".emacs.d/site-lisp/semi"]
-	path = .emacs.d/site-lisp/semi
-	url = git://github.com/wanderlust/semi.git
-[submodule ".emacs.d/site-lisp/wanderlust"]
-	path = .emacs.d/site-lisp/wanderlust
-	url = git://github.com/wanderlust/wanderlust.git
+[submodule ".emacs.d/modes/js2"]
+	path = .emacs.d/modes/js2
+	url = git://github.com/mooz/js2-mode.git
