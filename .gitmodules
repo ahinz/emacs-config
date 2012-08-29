@@ -10,3 +10,21 @@
 [submodule ".emacs.d/modes/jabber"]
 	path = .emacs.d/modes/jabber
 	url = git://emacs-jabber.git.sourceforge.net/gitroot/emacs-jabber/emacs-jabber
+[submodule ".emacs.d/modes/python"]
+	path = .emacs.d/modes/python
+	url = git://github.com/fgallina/python.el.git
+[submodule ".emacs.d/modes/haskell-mode"]
+	path = .emacs.d/modes/haskell-mode
+	url = git://github.com/haskell/haskell-mode.git
+[submodule ".emacs.d/site-lisp/flim"]
+	path = .emacs.d/site-lisp/flim
+	url = git://github.com/wanderlust/flim.git
+[submodule ".emacs.d/site-lisp/apel"]
+	path = .emacs.d/site-lisp/apel
+	url = git://github.com/wanderlust/apel.git
+[submodule ".emacs.d/site-lisp/semi"]
+	path = .emacs.d/site-lisp/semi
+	url = git://github.com/wanderlust/semi.git
+[submodule ".emacs.d/site-lisp/wanderlust"]
+	path = .emacs.d/site-lisp/wanderlust
+	url = git://github.com/wanderlust/wanderlust.git
