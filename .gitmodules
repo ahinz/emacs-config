@@ -16,6 +16,3 @@
 [submodule ".emacs.d/modes/haskell-mode"]
 	path = .emacs.d/modes/haskell-mode
 	url = git://github.com/haskell/haskell-mode.git
-[submodule ".emacs.d/modes/js2"]
-	path = .emacs.d/modes/js2
-	url = git://github.com/mooz/js2-mode.git

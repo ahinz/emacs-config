@@ -1,4 +1,5 @@
 (add-to-list 'load-path "~/.emacs.d/modes/")
+(add-to-list 'load-path "~/.emacs.d/modes/haskell-mode")
 (add-to-list 'load-path "~/.emacs.d/modes/jabber/")
 (add-to-list 'load-path "~/.emacs.d/modes/jabber/compat")
 (add-to-list 'load-path "~/.emacs.d/modes/multi-web-mode")
@@ -16,8 +17,24 @@
 (setq ido-everywhere t)
 (ido-mode 1)
 
+(global-set-key (kbd "C-c C-o") 'other-frame)
+                                            
+
 (global-set-key (kbd "C-c C-e") 'eval-buffer)
-(global-set-key (kbd "C-c M-e") 'eval-region)
+(global-set-key (kbd "C-c M-e") (lambda () 
+                                  (interactive) 
+                                  (eval-region (mark) (point)) 
+                                  (exchange-point-and-mark)
+                                  (deactivate-mark)))
+
+(load "~/.emacs.d/modes/haskell-mode/haskell-site-file")
+(add-hook 'haskell-mode-hook 'turn-on-haskell-doc-mode)
+(add-hook 'haskell-mode-hook 'turn-on-haskell-indentation)
+
+;; Flyspell for git commits and set vline mode
+(add-hook 'log-edit-mode-hook
+          (lambda ()
+            (flyspell-mode t)))
 
 (require 'objc-mode-expansions)
 
@@ -34,6 +51,7 @@
 
 ;; Editing objc in a reasonable way...
 (setq objc-mode-hook (function (lambda ()
+                                 (auto-complete-mode t)
                                  (setq indent-tabs-mode nil)
                                  (setq c-indent-level 4)
                                  (setq c-basic-offset 4))))
@@ -63,12 +81,14 @@
 
 (setq erc-autojoin-channels-alist
        '(("azavea.com" "#azavea")
-         ("freenode.net" "#scala" "#opentreemap" "#opendatacatalog" "#pycsw" "#geopython" "#geotrellis")))
+         ("freenode.net" "#okfn" "#scala" "#opentreemap" "#opendatacatalog" "#pycsw" "#geopython" "#geotrellis")))
 
 (global-set-key (kbd "<up>") nil)
 (global-set-key (kbd "<right>") nil)
 (global-set-key (kbd "<left>") nil)
 (global-set-key (kbd "<down>") nil)
+
+(defun window--major-non-side-window (a) nil)
 
 (defun default-erc ()
   (interactive)
@@ -127,26 +147,26 @@
 (require 'jabber-autoloads)
 
 (setq jabber-account-list
-    '(("hinz.adam@gmail.com" 
-       (:network-server . "talk.google.com")
-       (:connection-type . ssl))
+    '(
       ("ahinz@azavea.com"
        (:network-server . "talk.google.com")
+       (:port . 5223)
        (:connection-type . ssl))))
 
 ;; Never write "\t" characters
 (setq-default indent-tabs-mode nil)
 (custom-set-variables
-  ;; custom-set-variables was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
- '(backup-directory-alist (quote (("" . "/var/tmp/backup")))))
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(backup-directory-alist (quote (("" . "/var/tmp/backup"))))
+ '(custom-safe-themes (quote ("21d9280256d9d3cf79cbcf62c3e7f3f243209e6251b215aede5026e0c5ad853f" default))))
 (custom-set-faces
-  ;; custom-set-faces was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
  '(flyspell-incorrect ((t (:foreground "red" :underline t :weight bold))))
  '(font-lock-function-name-face ((t (:foreground "yellow" :weight bold)))))
 
@@ -242,6 +262,20 @@
  uniquify-buffer-name-style 'post-forward
  uniquify-separator ":")
 
+;;;;;;;;;
+(require 'inline-string-rectangle)
+(global-set-key (kbd "C-x r t") 'inline-string-rectangle)
+
+(require 'mark-more-like-this)
+(global-set-key (kbd "C-<") 'mark-previous-like-this)
+(global-set-key (kbd "C->") 'mark-next-like-this)
+(global-set-key (kbd "C-M-m") 'mark-more-like-this) ; like the other two, but takes an argument (negative is previous)
+(global-set-key (kbd "C-*") 'mark-all-like-this)
+
+(add-hook 'sgml-mode-hook
+          (lambda ()
+            (require 'rename-sgml-tag)
+            (define-key sgml-mode-map (kbd "C-c C-r") 'rename-sgml-tag)))
 
 ;;;;;;;;;;
 ;; 80 character vertical line
@@ -272,6 +306,7 @@
 
 (add-to-list 'load-path
              "~/.emacs.d/plugins/yasnippet")
+
 (require 'yasnippet)
 (yas/global-mode 1)
 
