@@ -12,6 +12,9 @@
 (add-to-list 'load-path "~/.emacs.d/plugins")
 (add-to-list 'load-path "~/.emacs.d/themes")
 (add-to-list 'load-path "~/.emacs.d/site-lisp")
+(add-to-list 'load-path "~/.emacs.d/site-lisp/magit")
+
+(add-to-list 'custom-theme-load-path "~/.emacs.d/site-lisp/tomorrow-theme")
 
 (setq ido-enable-flex-matching t)
 (setq ido-everywhere t)
@@ -27,9 +30,27 @@
                                   (exchange-point-and-mark)
                                   (deactivate-mark)))
 
+(require 'gis)
+(require 'magit)
+
+
+
 (load "~/.emacs.d/modes/haskell-mode/haskell-site-file")
 (add-hook 'haskell-mode-hook 'turn-on-haskell-doc-mode)
 (add-hook 'haskell-mode-hook 'turn-on-haskell-indentation)
+
+(autoload 'post-mode "post" "mode for e-mail" t)
+(add-to-list 'auto-mode-alist 
+             '("\\.*mutt-*\\|.article\\|\\.followup" 
+                . post-mode))
+
+(add-hook 'post-mode-hook 
+  (lambda ()
+    (flyspell-mode)
+    (auto-fill-mode t)    
+    (setq fill-column 72)    ; rfc 1855 for usenet messages
+    (require 'footnote-mode) 
+    (footmode-mode t)))
 
 ;; Flyspell for git commits and set vline mode
 (add-hook 'log-edit-mode-hook
@@ -41,7 +62,20 @@
 (require 'expand-region)
 (global-set-key (kbd "C-=") 'er/expand-region)
 
-(require 'tango-2-theme)
+(load-theme 'tomorrow-night-bright t)
+;; Fixes an issue with tomorrow-night-bright theme
+(setq ansi-term-color-vector
+  [term-face
+   term-color-black
+   term-color-red
+   term-color-green
+   term-color-yellow
+   term-color-blue
+   term-color-magenta
+   term-color-cyan
+   term-color-white])
+
+;(require 'tango-2-theme)
 (require 'paredit)
 
 ;; Use aspell instead of ispell (how well do uspell?)
@@ -90,6 +124,8 @@
 
 (defun window--major-non-side-window (a) nil)
 
+(set-face-attribute 'default nil :height 180)
+
 (defun default-erc ()
   (interactive)
   (erc :server "irc.freenode.net" :port 6667 :nick "adammh")
@@ -127,6 +163,7 @@
 (require 'revbufs)
 
 (add-hook 'scala-mode-hook 'ensime-scala-mode-hook)
+(add-hook 'scala-mode-hook (lambda () (subword-mode 1)))
 
 (require 'package)
 (add-to-list 'package-archives
@@ -161,7 +198,9 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(backup-directory-alist (quote (("" . "/var/tmp/backup"))))
- '(custom-safe-themes (quote ("21d9280256d9d3cf79cbcf62c3e7f3f243209e6251b215aede5026e0c5ad853f" default))))
+ '(column-number-mode t)
+ '(custom-safe-themes (quote ("4870e6cb6f0a70c14ee73db30b69a8a1f08d6ec9a689c366e88636fb81e8022d" "21d9280256d9d3cf79cbcf62c3e7f3f243209e6251b215aede5026e0c5ad853f" default)))
+ '(erc-spelling-mode t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -220,10 +259,13 @@
 (require 'multi-web-mode)
 (setq mweb-default-major-mode 'html-mode)
 (setq mweb-tags '((php-mode "<\\?php\\|<\\? \\|<\\?=" "\\?>")
-                  (js-mode "<script [^>]*>" "</script>")
+                  (js-mode "<script type=\"text/javascript\"[^>]*>" "</script>")
                   (css-mode "<style +type=\"text/css\"[^>]*>" "</style>")))
 (setq mweb-filename-extensions '("php" "htm" "html" "ctp" "phtml" "php4" "php5"))
 (multi-web-global-mode 1)
+
+;; Don't randomly switch my ido-find-file names
+(setq ido-auto-merge-delay-time 99999)
 
 ;;;;;;;;;;
 ;; Terminal helpers
@@ -285,10 +327,19 @@
 
 ;;;;;;;;;;
 ;; Javascript
-(autoload 'js2-mode "js2-mode" nil t)
-(add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
+;; js2 mode freezes horribly
+; (autoload 'js2-mode "js2-mode" nil t)
+; (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
 
-(require 'js2-refactor)
+(add-hook 'find-file-hook
+          (lambda ()
+            (when (string-match-p "\\.js$" (buffer-file-name))
+              (subword-mode 1)
+              (require 'js-mode-expansions)
+              (er/add-js-mode-expansions))))
+
+
+;(require 'js2-refactor)
 (require 'setup-slime-js)
 
 (add-hook 'css-mode-hook

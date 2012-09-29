@@ -1,0 +1,9 @@
+# -*- mode: snippet -*-
+# name: cdiv
+# key: cdiv
+# binding: direct-keybinding
+# type: command
+# --
+<div class="$1">
+     $0
+</div>

@@ -70,6 +70,10 @@
                           (js2-node-abs-end node)
                           func)))
 
+(defun slime-js-eval-buffer ()
+  (interactive)
+  (slime-js-eval-region (point-min) (point-max)))
+
 (defun slime-js-eval-current ()
   (interactive)
   (if (use-region-p)
@@ -83,7 +87,11 @@
     (slime-js-eval-statement 'slime-js--replace-with-result)))
 
 (define-key slime-js-minor-mode-map (kbd "C-x C-e") 'slime-js-eval-current)
-(define-key slime-js-minor-mode-map (kbd "C-c C-e") 'slime-js-eval-and-replace-current)
+(define-key slime-js-minor-mode-map (kbd "C-c C-e") 'slime-js-eval-buffer)
+(define-key slime-js-minor-mode-map (kbd "C-c C-r") '(lambda ()
+                                                       (interactive)
+                                                             (save-buffer)
+                                                             (slime-js-refresh-css)))
 
 ;; Remove slime-minor-mode from mode line if diminish.el is installed
 (when (boundp 'diminish)
