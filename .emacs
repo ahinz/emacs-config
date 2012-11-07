@@ -5,7 +5,6 @@
 (add-to-list 'load-path "~/.emacs.d/modes/multi-web-mode")
 (add-to-list 'load-path "~/.emacs.d/modes/js2/")
 (add-to-list 'load-path "~/.emacs.d/modes/js2-refactor/")
-(add-to-list 'load-path "~/.emacs.d/modes/multiple-cursors/")
 (add-to-list 'load-path "~/.emacs.d/modes/scala")
 (add-to-list 'load-path "~/.emacs.d/modes/ensime")
 (add-to-list 'load-path "~/.emacs.d/modes/expand-region")
@@ -14,6 +13,7 @@
 (add-to-list 'load-path "~/.emacs.d/site-lisp")
 (add-to-list 'load-path "~/.emacs.d/site-lisp/change-inner")
 (add-to-list 'load-path "~/.emacs.d/site-lisp/magit")
+(add-to-list 'load-path "~/.emacs.d/site-lisp/multiple-cursors")
 
 (add-to-list 'custom-theme-load-path "~/.emacs.d/site-lisp/tomorrow-theme")
 
@@ -76,6 +76,8 @@
 
 (require 'objc-mode-expansions)
 
+;; Need to add these guys:
+;; Really should add https://github.com/fgallina/region-bindings-mode
 (require 'expand-region)
 (define-prefix-command 'local-map)
 (define-key 'local-map (kbd "C-t") 'er/expand-region)
@@ -84,6 +86,20 @@
 (require 'change-inner)
 (define-key 'local-map (kbd "C-e") 'change-inner)
 (define-key 'local-map (kbd "e") 'change-outer)
+
+(require 'multiple-cursors)
+(define-key 'local-map (kbd "RET") 'mc/edit-lines)
+(define-key 'local-map (kbd "C-p") 'mc/mark-previous-like-this)
+(define-key 'local-map (kbd "C-n") 'mc/mark-next-like-this)
+(define-key 'local-map (kbd "C-m") 'mc/mark-all-like-this)
+(define-key 'local-map (kbd "C-SPC") 'set-rectangular-region-anchor)
+
+;; (require 'mark-more-like-this)
+;; (global-set-key (kbd "C-<") 'mark-previous-like-this)
+;; (global-set-key (kbd "C->") 'mark-next-like-this)
+;; (global-set-key (kbd "C-M-m") 'mark-more-like-this) ; like the other two, but takes an argument (negative is previous)
+;; (global-set-key (kbd "C-*") 'mark-all-like-this)
+
 
 (load-theme 'tomorrow-night-bright t)
 ;; Fixes an issue with tomorrow-night-bright theme
@@ -330,13 +346,6 @@
 ;;;;;;;;;
 (require 'inline-string-rectangle)
 (global-set-key (kbd "C-x r t") 'inline-string-rectangle)
-
-(require 'multiple-cursors)
-;; (require 'mark-more-like-this)
-;; (global-set-key (kbd "C-<") 'mark-previous-like-this)
-;; (global-set-key (kbd "C->") 'mark-next-like-this)
-;; (global-set-key (kbd "C-M-m") 'mark-more-like-this) ; like the other two, but takes an argument (negative is previous)
-;; (global-set-key (kbd "C-*") 'mark-all-like-this)
 
 (add-hook 'sgml-mode-hook
           (lambda ()
