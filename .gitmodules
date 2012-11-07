@@ -4,9 +4,6 @@
 [submodule ".emacs.d/modes/js2-refactor"]
 	path = .emacs.d/modes/js2-refactor
 	url = git://github.com/magnars/js2-refactor.el.git
-[submodule ".emacs.d/modes/mark-multiple"]
-	path = .emacs.d/modes/mark-multiple
-	url = git://github.com/magnars/mark-multiple.el.git
 [submodule ".emacs.d/modes/jabber"]
 	path = .emacs.d/modes/jabber
 	url = git://emacs-jabber.git.sourceforge.net/gitroot/emacs-jabber/emacs-jabber
@@ -19,3 +16,6 @@
 [submodule ".emacs.d/site-lisp/change-inner"]
 	path = .emacs.d/site-lisp/change-inner
 	url = git://github.com/magnars/change-inner.el.git
+[submodule ".emacs.d/site-lisp/multiple-cursors"]
+	path = .emacs.d/site-lisp/multiple-cursors
+	url = git://github.com/magnars/multiple-cursors.el.git
