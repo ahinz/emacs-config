@@ -5,13 +5,14 @@
 (add-to-list 'load-path "~/.emacs.d/modes/multi-web-mode")
 (add-to-list 'load-path "~/.emacs.d/modes/js2/")
 (add-to-list 'load-path "~/.emacs.d/modes/js2-refactor/")
-(add-to-list 'load-path "~/.emacs.d/modes/mark-multiple/")
+(add-to-list 'load-path "~/.emacs.d/modes/multiple-cursors/")
 (add-to-list 'load-path "~/.emacs.d/modes/scala")
 (add-to-list 'load-path "~/.emacs.d/modes/ensime")
 (add-to-list 'load-path "~/.emacs.d/modes/expand-region")
 (add-to-list 'load-path "~/.emacs.d/plugins")
 (add-to-list 'load-path "~/.emacs.d/themes")
 (add-to-list 'load-path "~/.emacs.d/site-lisp")
+(add-to-list 'load-path "~/.emacs.d/site-lisp/change-inner")
 (add-to-list 'load-path "~/.emacs.d/site-lisp/magit")
 
 (add-to-list 'custom-theme-load-path "~/.emacs.d/site-lisp/tomorrow-theme")
@@ -19,6 +20,17 @@
 (setq ido-enable-flex-matching t)
 (setq ido-everywhere t)
 (ido-mode 1)
+
+(defalias 'yes-or-no-p 'y-or-n-p)
+(global-subword-mode 1)
+
+(setq eval-expression-print-level nil)
+
+;; When popping the mark, continue popping until the cursor actually moves
+(defadvice pop-to-mark-command (around ensure-new-position activate)
+  (let ((p (point)))
+    (dotimes (i 10)
+      (when (= p (point)) ad-do-it))))
 
 (global-set-key (kbd "C-c C-o") 'other-frame)
                                             
@@ -32,8 +44,13 @@
 
 (require 'gis)
 (require 'magit)
-
-
+(require 'smex)
+(smex-initialize)
+(global-set-key (kbd "M-x") 'smex)
+(global-set-key (kbd "M-X") 'smex-major-mode-commands)
+ 
+(add-hook 'magit-log-edit-mode-hook (lambda ()
+    (flyspell-mode)))
 
 (load "~/.emacs.d/modes/haskell-mode/haskell-site-file")
 (add-hook 'haskell-mode-hook 'turn-on-haskell-doc-mode)
@@ -60,7 +77,13 @@
 (require 'objc-mode-expansions)
 
 (require 'expand-region)
-(global-set-key (kbd "C-=") 'er/expand-region)
+(define-prefix-command 'local-map)
+(define-key 'local-map (kbd "C-t") 'er/expand-region)
+(define-key 'local-map (kbd "C-r") 'er/contract-region)
+
+(require 'change-inner)
+(define-key 'local-map (kbd "C-e") 'change-inner)
+(define-key 'local-map (kbd "e") 'change-outer)
 
 (load-theme 'tomorrow-night-bright t)
 ;; Fixes an issue with tomorrow-night-bright theme
@@ -108,7 +131,7 @@
             (local-set-key (kbd "C-C o") 'ff-find-other-file)))
 
 (global-set-key (kbd "C-c e") 'yas/expand)
-
+                
 ;; Autojoin
 ;; (setq erc-auto-query 'bury)
 (setq erc-auto-query 'buffer)
@@ -308,11 +331,12 @@
 (require 'inline-string-rectangle)
 (global-set-key (kbd "C-x r t") 'inline-string-rectangle)
 
-(require 'mark-more-like-this)
-(global-set-key (kbd "C-<") 'mark-previous-like-this)
-(global-set-key (kbd "C->") 'mark-next-like-this)
-(global-set-key (kbd "C-M-m") 'mark-more-like-this) ; like the other two, but takes an argument (negative is previous)
-(global-set-key (kbd "C-*") 'mark-all-like-this)
+(require 'multiple-cursors)
+;; (require 'mark-more-like-this)
+;; (global-set-key (kbd "C-<") 'mark-previous-like-this)
+;; (global-set-key (kbd "C->") 'mark-next-like-this)
+;; (global-set-key (kbd "C-M-m") 'mark-more-like-this) ; like the other two, but takes an argument (negative is previous)
+;; (global-set-key (kbd "C-*") 'mark-all-like-this)
 
 (add-hook 'sgml-mode-hook
           (lambda ()
@@ -365,3 +389,11 @@
 (require 'ajc-java-complete-config)
 (add-hook 'java-mode-hook 'ajc-java-complete-mode)
 (add-hook 'find-file-hook 'ajc-4-jsp-find-file-hook)
+
+
+(setq-default header-line-format
+      '((:eval (if (display-graphic-p) "  " "--"))
+        (:eval (propertize "%b " 'face 'font-lock-keyword-face
+                           'help-echo (buffer-file-name)))
+        "%M"))
+

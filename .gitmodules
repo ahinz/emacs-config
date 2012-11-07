@@ -16,3 +16,6 @@
 [submodule ".emacs.d/modes/haskell-mode"]
 	path = .emacs.d/modes/haskell-mode
 	url = git://github.com/haskell/haskell-mode.git
+[submodule ".emacs.d/site-lisp/change-inner"]
+	path = .emacs.d/site-lisp/change-inner
+	url = git://github.com/magnars/change-inner.el.git
