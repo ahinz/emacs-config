@@ -4,8 +4,8 @@
 (add-to-list 'load-path "~/.emacs.d/modes/jabber/compat")
 (add-to-list 'load-path "~/.emacs.d/modes/multi-web-mode")
 (add-to-list 'load-path "~/.emacs.d/modes/js2/")
-(add-to-list 'load-path "~/.emacs.d/modes/js2-refactor/")
-(add-to-list 'load-path "~/.emacs.d/modes/scala")
+;;(add-to-list 'load-path "~/.emacs.d/modes/js2-refactor/")
+(add-to-list 'load-path "~/.emacs.d/modes/scala2")
 (add-to-list 'load-path "~/.emacs.d/modes/ensime")
 (add-to-list 'load-path "~/.emacs.d/modes/expand-region")
 (add-to-list 'load-path "~/.emacs.d/plugins")
@@ -78,8 +78,10 @@
 
 ;; Need to add these guys:
 ;; Really should add https://github.com/fgallina/region-bindings-mode
-(require 'expand-region)
 (define-prefix-command 'local-map)
+(global-set-key (kbd "C-t") 'local-map)
+
+(require 'expand-region)
 (define-key 'local-map (kbd "C-t") 'er/expand-region)
 (define-key 'local-map (kbd "C-r") 'er/contract-region)
 
@@ -197,12 +199,13 @@
 (scroll-bar-mode 0)
 
 ;; Scala Stuff
-(require 'scala-mode-auto)
-(require 'ensime)
+;; (require 'scala-mode-auto)
+(require 'scala-mode)
+;;(require 'ensime)
 (require 'revbufs)
 
-(add-hook 'scala-mode-hook 'ensime-scala-mode-hook)
-(add-hook 'scala-mode-hook (lambda () (subword-mode 1)))
+;(add-hook 'scala-mode-hook 'ensime-scala-mode-hook)
+;(add-hook 'scala-mode-hook (lambda () (subword-mode 1)))
 
 (require 'package)
 (add-to-list 'package-archives
@@ -251,8 +254,6 @@
 ;; Never write "\t" characters
 (setq-default indent-tabs-mode nil)
 
-;; turn off tab indenting in scala (ugh) 
-(add-hook 'scala-mode-hook 'scala-turnoff-indent-tabs-mode)
 
 ;; Move backup files
 (defvar user-temporary-file-directory
@@ -344,9 +345,6 @@
  uniquify-separator ":")
 
 ;;;;;;;;;
-(require 'inline-string-rectangle)
-(global-set-key (kbd "C-x r t") 'inline-string-rectangle)
-
 (add-hook 'sgml-mode-hook
           (lambda ()
             (require 'rename-sgml-tag)
@@ -361,15 +359,15 @@
 ;;;;;;;;;;
 ;; Javascript
 ;; js2 mode freezes horribly
-; (autoload 'js2-mode "js2-mode" nil t)
-; (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
+;; (autoload 'js2-mode "js2-mode" nil t)
+;; (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
 
-(add-hook 'find-file-hook
-          (lambda ()
-            (when (string-match-p "\\.js$" (buffer-file-name))
-              (subword-mode 1)
-              (require 'js-mode-expansions)
-              (er/add-js-mode-expansions))))
+;; (add-hook 'find-file-hook
+;;           (lambda ()
+;;             (when (string-match-p "\\.js$" (buffer-file-name))
+;;               (subword-mode 1)
+;;              (require 'js-mode-expansions)
+;;              (er/add-js-mode-expansions))))
 
 
 ;(require 'js2-refactor)

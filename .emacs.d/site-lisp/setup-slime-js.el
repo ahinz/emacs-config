@@ -1,6 +1,6 @@
 (require 'slime)
 (require 'slime-js)
-(require 'js2-refactor)
+;;(require 'js2-refactor)
 
 (setq slime-js-target-url "http://localhost:9710/gr/")
 (setq slime-js-connect-url "http://localhost:8009")
