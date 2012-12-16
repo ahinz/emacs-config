@@ -6,7 +6,7 @@
 (add-to-list 'load-path "~/.emacs.d/modes/js2/")
 ;;(add-to-list 'load-path "~/.emacs.d/modes/js2-refactor/")
 (add-to-list 'load-path "~/.emacs.d/modes/scala2")
-(add-to-list 'load-path "~/.emacs.d/modes/ensime")
+(add-to-list 'load-path "~/.emacs.d/site-lisp/ensime/elisp")
 (add-to-list 'load-path "~/.emacs.d/modes/expand-region")
 (add-to-list 'load-path "~/.emacs.d/plugins")
 (add-to-list 'load-path "~/.emacs.d/themes")
@@ -201,7 +201,7 @@
 ;; Scala Stuff
 ;; (require 'scala-mode-auto)
 (require 'scala-mode)
-;;(require 'ensime)
+(require 'ensime)
 (require 'revbufs)
 
 ;(add-hook 'scala-mode-hook 'ensime-scala-mode-hook)
@@ -212,16 +212,18 @@
              '("marmalade" . "http://marmalade-repo.org/packages/") t)
 (package-initialize)
 
+(require 'rainbow-delimiters)
 (require 'clojure-mode)
+(require 'nrepl)
 
-(add-hook 'slime-repl-mode-hook
-          (defun clojure-mode-slime-font-lock ()
-            (require 'clojure-mode)
-            (let (font-lock-mode)
-              (clojure-mode-font-lock-setup))))
+(add-hook 'nrepl-interaction-mode-hook
+  'nrepl-turn-on-eldoc-mode)
+(add-hook 'nrepl-mode-hook 'paredit-mode)
+(add-hook 'nrepl-mode-hook 'rainbow-delimiters-mode)
 
 (defun turn-on-paredit () (paredit-mode 1))
 (add-hook 'clojure-mode-hook 'turn-on-paredit)
+(add-hook 'clojure-mode-hook 'rainbow-delimiters-mode)
 
 (require 'jabber-autoloads)
 
@@ -382,7 +384,7 @@
 ;; Java/IDEish stuff
 
 (add-to-list 'load-path "~/.emacs.d/plugins/auto-complete")    ; This may not be appeared if you have already added.
-(add-to-list 'ac-dictionary-directories "~/.emacs.d/plugins/auto-complete/ac-dict")
+;;(add-to-list 'ac-dictionary-directories "~/.emacs.d/plugins/auto-complete/ac-dict")
 (require 'auto-complete-config)
 (ac-config-default)
 
