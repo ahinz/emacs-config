@@ -1,24 +1,51 @@
-[submodule ".emacs.d/modes/expand-region"]
-	path = .emacs.d/modes/expand-region
-	url = git://github.com/magnars/expand-region.el.git
-[submodule ".emacs.d/modes/js2-refactor"]
-	path = .emacs.d/modes/js2-refactor
-	url = git://github.com/magnars/js2-refactor.el.git
-[submodule ".emacs.d/modes/jabber"]
-	path = .emacs.d/modes/jabber
-	url = git://emacs-jabber.git.sourceforge.net/gitroot/emacs-jabber/emacs-jabber
-[submodule ".emacs.d/modes/python"]
-	path = .emacs.d/modes/python
-	url = git://github.com/fgallina/python.el.git
-[submodule ".emacs.d/modes/haskell-mode"]
-	path = .emacs.d/modes/haskell-mode
-	url = git://github.com/haskell/haskell-mode.git
-[submodule ".emacs.d/site-lisp/change-inner"]
-	path = .emacs.d/site-lisp/change-inner
+[submodule ".emacs.d/plugins/ace-jump-mode"]
+	path = .emacs.d/plugins/ace-jump-mode
+	url = git://github.com/winterTTr/ace-jump-mode.git
+[submodule ".emacs.d/plugins/change-inner"]
+	path = .emacs.d/plugins/change-inner
 	url = git://github.com/magnars/change-inner.el.git
-[submodule ".emacs.d/site-lisp/multiple-cursors"]
-	path = .emacs.d/site-lisp/multiple-cursors
+[submodule ".emacs.d/plugins/clojure-mode"]
+	path = .emacs.d/plugins/clojure-mode
+	url = git://github.com/technomancy/clojure-mode.git
+[submodule ".emacs.d/plugins/expand-region"]
+	path = .emacs.d/plugins/expand-region
+	url = git://github.com/magnars/expand-region.el.git
+[submodule ".emacs.d/plugins/full-ack"]
+	path = .emacs.d/plugins/full-ack
+	url = git://github.com/nschum/full-ack.git
+[submodule ".emacs.d/plugins/haskell-mode"]
+	path = .emacs.d/plugins/haskell-mode
+	url = git://github.com/haskell/haskell-mode.git
+[submodule ".emacs.d/plugins/jabber"]
+	path = .emacs.d/plugins/jabber
+	url = git://emacs-jabber.git.sourceforge.net/gitroot/emacs-jabber/emacs-jabber
+[submodule ".emacs.d/plugins/magit"]
+	path = .emacs.d/plugins/magit
+	url = git://github.com/magit/magit.git
+[submodule ".emacs.d/plugins/javap-mode"]
+	path = .emacs.d/plugins/javap-mode
+	url = git://github.com/ahinz/javap-mode.git
+[submodule ".emacs.d/plugins/multiple-cursors"]
+	path = .emacs.d/plugins/multiple-cursors
 	url = git://github.com/magnars/multiple-cursors.el.git
-[submodule ".emacs.d/modes/scala2"]
-	path = .emacs.d/modes/scala2
+[submodule ".emacs.d/plugins/nrepl"]
+	path = .emacs.d/plugins/nrepl
+	url = git://github.com/kingtim/nrepl.el.git
+[submodule ".emacs.d/plugins/multi-web-mode"]
+	path = .emacs.d/plugins/multi-web-mode
+	url = git://github.com/fgallina/multi-web-mode.git
+[submodule ".emacs.d/plugins/rainbow-delimiters"]
+	path = .emacs.d/plugins/rainbow-delimiters
+	url = git://github.com/jlr/rainbow-delimiters.git
+[submodule ".emacs.d/plugins/yaml-mode"]
+	path = .emacs.d/plugins/yaml-mode
+	url = git://github.com/yoshiki/yaml-mode.git
+[submodule ".emacs.d/plugins/scala-mode"]
+	path = .emacs.d/plugins/scala-mode
 	url = git://github.com/hvesalai/scala-mode2.git
+[submodule ".emacs.d/plugins/smex"]
+	path = .emacs.d/plugins/smex
+	url = git://github.com/nonsequitur/smex.git
+[submodule ".emacs.d/plugins/yasnippet"]
+	path = .emacs.d/plugins/yasnippet
+	url = git://github.com/capitaomorte/yasnippet.git
