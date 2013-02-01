@@ -1,11 +1,11 @@
 (defun ah/cleanup-buffer-safe ()
-  "Perform a bunch of safe operations on the whitespace content of a buffer.
-Does not indent buffer, because it is used for a before-save-hook, and that
-might be bad."
   (interactive)
-  (untabify-buffer)
+  (if (not (or (string= major-mode 'makefile-gmake-mode)
+               (string= major-mode 'makefile-mode)))
+      (untabify (point-min) (point-max)))
   (delete-trailing-whitespace)
   (set-buffer-file-coding-system 'utf-8))
+
 
 ;; When popping the mark, continue popping until the cursor actually moves
 (defadvice pop-to-mark-command (around ensure-new-position activate)

@@ -1,8 +1,10 @@
 (defvar ah:mode-config-dir (concat user-emacs-directory "config/modes/"))
 
-(defvar ah:modes 
+(defvar ah:modes
   (list "ace-jump"
         "expand-region"
+        "vline"
+        "uniquify"
         "change-inner"
         "clojure"
         "erc"
@@ -31,7 +33,7 @@
         "js"
         "yasnippet"))
 
-  
+
 
 (dolist (mode-config ah:modes)
   (when (not (file-directory-p mode-config))
