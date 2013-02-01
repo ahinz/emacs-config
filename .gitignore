@@ -2,3 +2,7 @@
 auto-save-list
 %*
 *.elc
+.folders
+.emacs.d/session.*
+.emacs.d/games/
+.emacs.d/url/
