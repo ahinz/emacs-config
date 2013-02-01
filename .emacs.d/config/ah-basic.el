@@ -36,5 +36,11 @@
 (setq auto-save-file-name-transforms
       `((".*" ,user-temporary-file-directory t)))
 
+;; Use lambda for anonymous functions
+(font-lock-add-keywords
+ 'js2-mode `(("\\(function\\) *("
+              (0 (progn (compose-region (match-beginning 1)
+                                        (match-end 1) "\u0192")
+                        nil)))))
 
 (provide 'ah-basic)
