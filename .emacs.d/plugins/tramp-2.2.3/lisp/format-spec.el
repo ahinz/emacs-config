@@ -1,1 +1,0 @@
-../contrib/format-spec.el
