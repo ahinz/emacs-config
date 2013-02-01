@@ -1,4 +1,4 @@
-(add-to-list 'custom-theme-load-path "~/.emacs.d/site-lisp/tomorrow-theme")
+(add-to-list 'custom-theme-load-path "~/.emacs.d/themes/tomorrow-theme")
 
 (load-theme 'tomorrow-night-bright t)
 
