@@ -6,7 +6,7 @@
        '(("azavea.com" "#azavea")
          ("freenode.net" "#okfn" "#scala" "#opentreemap" "#opendatacatalog" "#pycsw" "#geopython" "#geotrellis")))
 
-(defun default-erc ()
+(defun ah/default-erc ()
   (interactive)
   (let ((realpw (read-passwd "Bouncer Password: ")))
    (erc :server "www.adamhinz.com" :port 5123 :nick "adam" :password (concat "adammh:" realpw))

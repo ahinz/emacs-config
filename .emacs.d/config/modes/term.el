@@ -18,6 +18,13 @@
   (interactive "sName: ")
   (mk-term name "bash"))
 
+(global-set-key (kbd "C-c n") 'open-term)
+
+(defun ah/turn-off-yas-minor-mode ()
+  (yas-minor-mode -1))
+
+(add-hook 'term-mode-hook 'ah/turn-off-yas-minor-mode)
+
 (open-term "tty0")
 (open-term "tty1")
 (open-term "tty2")

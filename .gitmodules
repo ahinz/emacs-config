@@ -52,3 +52,9 @@
 [submodule ".emacs.d/plugins/js2"]
 	path = .emacs.d/plugins/js2
 	url = git://github.com/mooz/js2-mode.git
+[submodule ".emacs.d/plugins/auto-complete"]
+	path = .emacs.d/plugins/auto-complete
+	url = git://github.com/auto-complete/auto-complete.git
+[submodule ".emacs.d/plugins/popup"]
+	path = .emacs.d/plugins/popup
+	url = git://github.com/auto-complete/popup-el.git

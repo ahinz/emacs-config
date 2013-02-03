@@ -4,7 +4,6 @@
   (list "ace-jump"
         "expand-region"
         "vline"
-        "uniquify"
         "change-inner"
         "clojure"
         "erc"
@@ -31,7 +30,8 @@
         "term"
         "yaml"
         "js"
-        "yasnippet"))
+        "yasnippet"
+        "uniquify"))
 
 
 
