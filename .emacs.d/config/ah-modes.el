@@ -27,10 +27,10 @@
         "scala"
         "smex"
         "tempbuf"
+        "yasnippet"
         "term"
         "yaml"
         "js"
-        "yasnippet"
         "uniquify"))
 
 
