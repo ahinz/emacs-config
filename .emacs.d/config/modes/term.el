@@ -23,6 +23,7 @@
 (defun ah/turn-off-yas-minor-mode ()
   (yas-minor-mode -1))
 
+(term-pager-toggle 1)
 (add-hook 'term-mode-hook 'ah/turn-off-yas-minor-mode)
 
 (open-term "tty0")
