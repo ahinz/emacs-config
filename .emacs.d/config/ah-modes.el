@@ -31,6 +31,7 @@
         "term"
         "yaml"
         "js"
+        "markdown"
         "uniquify"))
 
 
