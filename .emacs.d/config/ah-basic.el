@@ -1,6 +1,7 @@
-
 ;; I slay thee, you tab!
 (setq-default indent-tabs-mode nil)
+
+(put 'suspend-frame 'disabled t) ; disable C-z
 
 ;; Not sure why this is needed...
 (defun window--major-non-side-window (a) nil)
