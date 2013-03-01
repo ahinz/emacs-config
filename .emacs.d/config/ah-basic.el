@@ -41,7 +41,7 @@
 (font-lock-add-keywords
  'js2-mode `(("\\(function\\) *("
               (0 (progn (compose-region (match-beginning 1)
-                                        (match-end 1) "\u0192")
+                                        (match-end 1) ?λ)
                         nil)))))
 
 (provide 'ah-basic)
