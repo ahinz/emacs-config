@@ -1,3 +1,5 @@
+(require 'term)
+
 (defun mk-term (new-buffer-name cmd &rest switches)
   (setq term-ansi-buffer-name (concat "*" new-buffer-name "*"))
   (setq term-ansi-buffer-name (generate-new-buffer-name term-ansi-buffer-name))
@@ -23,7 +25,7 @@
 (defun ah/turn-off-yas-minor-mode ()
   (yas-minor-mode -1))
 
-(term-pager-toggle 1)
+(term-pager-enable)
 (add-hook 'term-mode-hook 'ah/turn-off-yas-minor-mode)
 
 (open-term "tty0")
