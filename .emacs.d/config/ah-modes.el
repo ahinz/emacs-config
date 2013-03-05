@@ -6,6 +6,8 @@
         "vline"
         "change-inner"
         "clojure"
+        "nrepl"
+        "clojure-test"
         "erc"
         "flyspell"
         "full-ack"
@@ -18,7 +20,6 @@
         "magit"
         "multiple-cursors"
         "multi-web"
-        "nrepl"
         "objc"
         "package"
         "paredit"
@@ -31,6 +32,7 @@
         "term"
         "yaml"
         "js"
+        "markdown"
         "uniquify"))
 
 

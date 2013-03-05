@@ -1,6 +1,7 @@
-
 ;; I slay thee, you tab!
 (setq-default indent-tabs-mode nil)
+
+(put 'suspend-frame 'disabled t) ; disable C-z
 
 ;; Not sure why this is needed...
 (defun window--major-non-side-window (a) nil)
@@ -40,7 +41,7 @@
 (font-lock-add-keywords
  'js2-mode `(("\\(function\\) *("
               (0 (progn (compose-region (match-beginning 1)
-                                        (match-end 1) "\u0192")
+                                        (match-end 1) ?λ)
                         nil)))))
 
 (provide 'ah-basic)
