@@ -3,8 +3,16 @@
 
 (setq mc/cmds-to-run-for-all
       '(
+        iy-go-to-char
         kill-region
+        paredit-backward-kill-word
+        paredit-doublequote
+        paredit-forward-delete
+        paredit-forward-slurp-sexp
+        paredit-open-round
+        paredit-splice-sexp
         python-indent-dedent-line-backspace
+        python-indent-electric-colon
         sgml-slash
         yas/expand
         ))
@@ -12,6 +20,5 @@
 (setq mc/cmds-to-run-once
       '(
         kill-sentence
-        scala-newline
         yank-rectangle
         ))
