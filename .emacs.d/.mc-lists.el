@@ -3,6 +3,7 @@
 
 (setq mc/cmds-to-run-for-all
       '(
+        haskell-indentation-delete-char
         iy-go-to-char
         kill-region
         paredit-backward-kill-word
@@ -14,11 +15,13 @@
         python-indent-dedent-line-backspace
         python-indent-electric-colon
         sgml-slash
+        smex
         yas/expand
         ))
 
 (setq mc/cmds-to-run-once
       '(
         kill-sentence
+        scala-newline
         yank-rectangle
         ))
