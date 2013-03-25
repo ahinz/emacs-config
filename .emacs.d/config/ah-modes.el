@@ -5,8 +5,9 @@
         "expand-region"
         "vline"
         "change-inner"
+        "clojure-preload" ;; nrepl and clojure helpfully
+        "nrepl"           ;; depend on each other...?
         "clojure"
-        "nrepl"
         "clojure-test"
         "erc"
         "flyspell"
@@ -31,8 +32,8 @@
         "yasnippet"
         "term"
         "yaml"
-        "js"
         "markdown"
+        "js"
         "uniquify"))
 
 
