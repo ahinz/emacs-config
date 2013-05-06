@@ -6,6 +6,7 @@
 ;; https://github.com/magnars/.emacs.d/
 ;;
 
+(require 'ah-packages)
 (require 'ah-util)
 (require 'ah-basic)
 (require 'ah-keys)
