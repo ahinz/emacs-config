@@ -12,3 +12,5 @@
 (require 'ah-defuns)
 (require 'ah-modes)
 (require 'ah-theme)
+
+(put 'upcase-region 'disabled nil)

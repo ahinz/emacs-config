@@ -16,6 +16,7 @@
         python-indent-electric-colon
         sgml-slash
         smex
+        yas-expand
         yas/expand
         ))
 

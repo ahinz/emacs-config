@@ -21,7 +21,7 @@
 
 (setq eval-expression-print-level nil)
 
-(set-face-attribute 'default nil :height 180)
+(set-face-attribute 'default nil :height 150)
 
 ;; Move backup files
 (defvar user-temporary-file-directory
@@ -43,5 +43,32 @@
               (0 (progn (compose-region (match-beginning 1)
                                         (match-end 1) ?λ)
                         nil)))))
+
+;; Use a more-sane modeline
+(setq mode-line-format
+      `("%e"
+        (:eval (propertize "%b " 'face 'font-lock-keyword-face))
+
+        "("
+        ,(propertize "%02l" 'face 'font-lock-type-face) ","
+        ,(propertize "%02c" 'face 'font-lock-type-face)
+        ") "
+
+        "["
+        ,(propertize "%p" 'face 'font-lock-constant-face)
+        "/"
+        ,(propertize "%I" 'face 'font-lock-constant-face)
+        "] "
+
+        "*"
+        (:eval (propertize "%m" 'face 'font-lock-string-face))
+        "* "
+
+        "%M"))
+
+(setq default-header-line-format
+      `(vc-mode vc-mode
+                (t erc-modified-channels-object)))
+
 
 (provide 'ah-basic)
