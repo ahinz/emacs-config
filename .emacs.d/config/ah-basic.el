@@ -45,8 +45,8 @@
                         nil)))))
 
 ;; Use a more-sane modeline
-(setq mode-line-format
-      `("%e"
+(setq-default mode-line-format
+      `(" %e"
         (:eval (propertize "%b " 'face 'font-lock-keyword-face))
 
         "("
@@ -66,9 +66,8 @@
 
         "%M"))
 
-(setq default-header-line-format
-      `(vc-mode vc-mode
-                (t erc-modified-channels-object)))
+(setq-default header-line-format
+      `((:eval erc-modified-channels-object)))
 
 
 (provide 'ah-basic)
