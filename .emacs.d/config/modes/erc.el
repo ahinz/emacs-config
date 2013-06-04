@@ -15,3 +15,5 @@
 (defun ah/erc-azavea ()
   (interactive)
   (erc :server "192.168.1.7" :port 6667 :nick "adam"))
+
+
