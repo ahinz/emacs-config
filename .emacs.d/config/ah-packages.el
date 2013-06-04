@@ -9,7 +9,7 @@
 (defvar ah/base-packages
   '(ace-jump-mode auto-complete clojure-mode clojure-test-mode clojurescript-mode ac-nrepl
     expand-region full-ack haskell-mode iy-go-to-char jabber js2-mode magit markdown-mode
-    nrepl multiple-cursors paredit rainbow-delimiters smex yasnippet yaml-mode vline magithub
+    nrepl multiple-cursors smartparens rainbow-delimiters smex yasnippet yaml-mode vline magithub
     popup)
   "Package list")
 

@@ -3,6 +3,7 @@
 (defvar ah:modes
   (list "ace-jump"
         "expand-region"
+        "emms"
         "vline"
         "change-inner"
         "clojure-preload" ;; nrepl and clojure helpfully
@@ -23,7 +24,7 @@
         "multi-web"
         "objc"
         "package"
-        "paredit"
+        "smartparens"
         "post"
         "rainbow-delimiters"
         "scala"

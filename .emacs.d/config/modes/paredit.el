@@ -1,1 +1,1 @@
-(require 'paredit)
+;(require 'paredit)
