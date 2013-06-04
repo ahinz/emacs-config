@@ -1,4 +1,13 @@
 ;; Really should add https://github.com/fgallina/region-bindings-mode
+
+(global-set-key (kbd "C-a")
+                (lambda ()
+                  (interactive)
+                  (if (eq (point) (point-at-bol))
+                      (back-to-indentation)
+                    (move-beginning-of-line nil))))
+
+
 (define-prefix-command 'local-map)
 (global-set-key (kbd "C-t") 'local-map)
 
