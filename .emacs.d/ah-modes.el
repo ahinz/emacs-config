@@ -12,9 +12,11 @@
    ("C-c M-e" . ah:eval-and-swap-mark)
    ("C-a" . ah:smart-start-of-line)))
 
-(use-package emacs-lisp-mode
+(use-package lisp-mode
   :init
   (progn
+    (add-hook 'lisp-mode-hook 'paredit-mode)
+
     (put 'use-package 'lisp-indent-function 'defun)))
 
 (use-package use-package
@@ -30,7 +32,9 @@
     (global-font-lock-mode t)))
 
 (use-package color-theme-sanityinc-tomorrow
-  :config (load-theme 'sanityinc-tomorrow-bright t))
+  :init (load-theme 'sanityinc-tomorrow-bright t)
+  :config (set-face-attribute 'mode-line nil
+                              :box nil))
 
 (use-package ace-jump-mode
   :defer t

@@ -1,6 +1,8 @@
 (global-auto-revert-mode t)
 
 (set-face-attribute 'default nil :height 170)
+(set 'inhibit-startup-screen t)
+(setq make-backup-files nil)
 
 (menu-bar-mode 0)
 (tool-bar-mode 0)

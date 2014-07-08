@@ -43,8 +43,8 @@
 (defun ah:default-erc ()
   (interactive)
   (let ((realpw (read-passwd "Bouncer Password: ")))
-   (erc :server "www.adamhinz.com" :port 5123 :nick "adam" :password (concat "adammh:" realpw))
-   (erc :server "www.adamhinz.com" :port 5123 :nick "adammh" :password (concat "adam:" realpw))))
+    (erc :server "www.adamhinz.com" :port 5123 :nick "adam" :password (concat "adammh:" realpw))))
+    ;(erc :server "www.adamhinz.com" :port 5123 :nick "adammh" :password (concat "adam:" realpw))))
 
 (defun ah:print-bw ()
   (interactive)
