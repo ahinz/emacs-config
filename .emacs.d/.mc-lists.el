@@ -3,25 +3,34 @@
 
 (setq mc/cmds-to-run-for-all
       '(
+        c-electric-delete-forward
+        c-electric-paren
         haskell-indentation-delete-char
+        insert-parentheses
         iy-go-to-char
+        iy-go-to-char--command
         kill-region
         paredit-backward-kill-word
         paredit-doublequote
         paredit-forward-delete
         paredit-forward-slurp-sexp
+        paredit-kill
         paredit-open-round
+        paredit-open-square
         paredit-splice-sexp
         python-indent-dedent-line-backspace
         python-indent-electric-colon
         sgml-slash
         smex
+        sp--self-insert-command
+        sp-forward-slurp-sexp
         yas-expand
         yas/expand
         ))
 
 (setq mc/cmds-to-run-once
       '(
+        beginning-of-buffer
         kill-sentence
         scala-newline
         yank-rectangle
