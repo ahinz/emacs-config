@@ -1,8 +1,31 @@
 (require 'use-package)
 
+(use-package ah-tools
+             :demand t)
+
+(use-package ah-config
+             :demand t
+             :bind
+             (("C-t" . local-map)
+              ("C-c C-o" . other-frame)
+              ("C-c C-e" . eval-buffer)
+              ("C-c M-e" . ah:eval-and-swap-mark)
+              ("C-a" . ah:smart-start-of-line)))
+
 (use-package use-package
              :config (setq use-package-verbose t)
              :bind ("C-c k" . describe-personal-keybindings))
+
+(use-package font-lock
+             :init
+             (progn
+               ;; turn on maximum syntax highlighting
+               (require 'font-lock)
+               (setq font-lock-maximum-decoration t)
+               (global-font-lock-mode t)))
+
+(use-package color-theme-sanityinc-tomorrow
+             :config (load-theme 'sanityinc-tomorrow-bright t))
 
 (use-package ace-jump-mode
              :defer t
@@ -94,7 +117,14 @@
 
 (use-package js2-mode
              :defer t
-             :mode (("\\.js$" . js2-mode)))
+             :mode (("\\.js$" . js2-mode))
+             :init
+             (progn
+               (font-lock-add-keywords
+                'js2-mode `(("\\(function\\) *("
+                             (0 (progn (compose-region (match-beginning 1)
+                                                       (match-end 1) ?λ)
+                                       nil)))))))
 
 (use-package grep
              :bind ("M-r" . rgrep)
@@ -271,6 +301,36 @@
                                  (css-mode "<style +type=\"text/css\"[^>]*>" "</style>")))
                (setq mweb-filename-extensions '("php" "htm" "html" "ctp" "phtml" "php4" "php5"))
                (multi-web-global-mode 1)))
+
+(use-package java-mode
+             :config
+             (progn
+               (c-add-style "adam-java-style"
+                            '("java"
+                              (c-basic-offset . 4)
+                              (arglist-cont-nonempty . +)
+                              (c-hanging-braces-alist
+                               ((substatement-open)
+                                (block-close . c-snug-do-while)
+                                (extern-lang-open after)
+                                (inexpr-class-open after)
+                                (inexpr-class-close before)))
+                              (c-offsets-alist
+                               (substatement-open . 0))))
+
+               (defun ah:java-mode-hook ()
+                 (remove-hook 'before-save-hook 'ah/cleanup-buffer-safe 'local)
+
+                 (c-set-style "adam-java-style")
+                 (c-set-offset 'arglist-cont-nonempty '+)
+                 (c-set-offset 'arglist-intro '+)
+                 (c-set-offset 'arglist-close 0)
+                 (c-set-offset 'statement-cont '+)
+                 (setq c-basic-offset 4
+                       tab-width 8
+                       indent-tabs-mode t))
+
+               (add-hook 'java-mode-hook 'ah:java-mode-hook)))
 
 (use-package rainbow-delimiters
              :defer t)
