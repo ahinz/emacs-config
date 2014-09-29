@@ -1,7 +1,9 @@
+
 (defun ah:cleanup-buffer-safe ()
   (interactive)
   (if (not (or (string= major-mode 'makefile-gmake-mode)
-               (string= major-mode 'makefile-mode)))
+               (string= major-mode 'makefile-mode)
+               (string= major-mode 'java-mode)))
       (untabify (point-min) (point-max)))
   (delete-trailing-whitespace)
   (set-buffer-file-coding-system 'utf-8))
@@ -40,11 +42,16 @@
                              (bbox-to-polylist xmin ymin xmax ymax))
                      " ")))
 
+(defun get-string-from-file (filePath)
+  "Return filePath's file content."
+  (with-temp-buffer
+    (insert-file-contents filePath)
+    (buffer-string)))
+
 (defun ah:default-erc ()
   (interactive)
-  (let ((realpw (read-passwd "Bouncer Password: ")))
-    (erc :server "www.adamhinz.com" :port 5123 :nick "adam" :password (concat "adammh:" realpw))))
-    ;(erc :server "www.adamhinz.com" :port 5123 :nick "adammh" :password (concat "adam:" realpw))))
+  (let ((realpw (get-string-from-file "~/.emacs.d/.erc-info")))
+    (erc :server "www.adamhinz.com" :port 5123 :nick "adammh" :password (concat "adam:" realpw))))
 
 (defun ah:print-bw ()
   (interactive)

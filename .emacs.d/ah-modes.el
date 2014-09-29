@@ -1,7 +1,42 @@
 (require 'use-package)
 
-(use-package ah-tools
-  :demand t)
+(use-package ah-tools)
+
+(use-package helm
+  :demand t
+  :bind
+  (("C-x b" . helm-buffers-list))
+
+  :init
+  (progn
+    (setq helm-buffers-fuzzy-matching 1)
+
+    ;; Sort with the following:
+    ;; - Pattern is prefix
+    ;; - Timestamp
+    ;; - Bury the active buffer
+    (defun ah:candidate-score (pattern abuffer visible-buffers)
+      (let ((timestamp (with-current-buffer (get-buffer abuffer)
+                         (float-time buffer-display-time)))
+            (prefix-match (if (not (null (string-match-p (format "^%s" pattern) abuffer)))
+                              1000000000
+                            0))
+            (bury-visible (if (member abuffer visible-buffers)
+                              -1000000000
+                            0)))
+        (+ timestamp prefix-match bury-visible)))
+
+    (defun helm-buffers-sort-transformer (candidates _source)
+      (if (string= helm-pattern "")
+          candidates
+        (let ((active-buffers (mapcar (lambda (w)
+                                        (with-current-buffer (window-buffer w)
+                                          (buffer-name)))
+                                      (window-list-1 nil nil nil))))
+          (sort candidates
+                #'(lambda (s1 s2)
+                    (> (ah:candidate-score helm-pattern s1 active-buffers)
+                       (ah:candidate-score helm-pattern s2 active-buffers)))))))))
 
 (use-package ah-config
   :demand t
@@ -12,12 +47,12 @@
    ("C-c M-e" . ah:eval-and-swap-mark)
    ("C-a" . ah:smart-start-of-line)))
 
-(use-package lisp-mode
+(use-package emacs-lisp-mode
   :init
   (progn
-    (add-hook 'lisp-mode-hook 'paredit-mode)
-
-    (put 'use-package 'lisp-indent-function 'defun)))
+    (put 'use-package 'lisp-indent-function 'defun)
+    (add-hook 'emacs-lisp-mode-hook 'paredit-mode)
+    (add-hook 'emacs-lisp-mode-hook 'rainbow-delimiters-mode)))
 
 (use-package use-package
   :config (setq use-package-verbose t)
@@ -46,20 +81,31 @@
   :bind (("M-i" . change-inner)
          ("M-o" . change-outer)))
 
+;;(use-package paredit-mode)
+;;(use-package rainbow-delimiters)
+
 (use-package clojure-mode
-  :defer t
-  :config
+  :init
   (progn
-    (setq nrepl-popup-stacktraces nil)
+    (put-clojure-indent 'nextTuple 'defun)
+    (put-clojure-indent 'table 'defun)
+    (put-clojure-indent 'tr 'defun)
+    (put-clojure-indent 'td 'defun)
+    (put-clojure-indent 'div 'defun)
+    (put-clojure-indent 'header 'defun)
+    (put-clojure-indent 'button 'defun)
+    (put-clojure-indent 'span 'defun)
+    (put-clojure-indent 'nav 'defun)
+    (put-clojure-indent 'ul 'defun)
+    (put-clojure-indent 'li 'defun)
+
     (add-hook 'clojure-mode-hook 'paredit-mode)
     (add-hook 'clojure-mode-hook 'rainbow-delimiters-mode)))
 
 (use-package clojure-test-mode
   :defer t)
 
-
 (use-package erc
-  :demand t
   :init
   (setq erc-auto-query 'buffer
         erc-autojoin-channels-alist
@@ -76,6 +122,12 @@
   (setq ispell-program-name "aspell"
         ispell-extra-args '("--sug-mode=ultra")
         flyspell-issue-welcome-flag nil))
+
+(use-package c-mode
+  :demand t
+  :init
+  (global-set-key (kbd "C-c o") 'ff-find-other-file)
+  :bind ("C-c o" . ff-find-other-file))
 
 (use-package haskell-mode
   :defer t
@@ -143,7 +195,6 @@
             (add-to-list 'grep-find-ignored-files "*.min.css")))
 
 (use-package magit
-  :demand t
   :bind ("<up>" . magit-status)
   :config
   (progn
@@ -190,7 +241,6 @@
   (smex-initialize))
 
 (use-package multiple-cursors
-  :demand t
   :bind
   (("C-t RET" . mc/edit-lines)
    ("C-t C-p" . mc/mark-previous-like-this)
@@ -269,12 +319,17 @@
     (ah:open-term "tty4")))
 
 (use-package scala-mode2
+  :commands scala-mode
   :defer t
-  :mode (("\\.scala$" . scala-mode2)
-         ("\\.sbt$" . scala-mode2)))
+  :mode (("\\.scala$" . scala-mode)
+         ("\\.sbt$" . scala-mode)))
+
+(use-package sbt-mode
+  :commands (sbt-find-definitions sbt-run-previous-command sbt-start)
+  :init
+  (setq sbt:program-name "/usr/local/bin/sbt"))
 
 (use-package objc-mode
-  :defer t
   :config
   (progn
     (defun ah:obj-editing ()
@@ -301,7 +356,6 @@
                 (local-set-key (kbd "C-C o") 'ff-find-other-file)))))
 
 (use-package multi-web-mode
-  :defer t
   :config
   (progn
     (setq mweb-default-major-mode 'html-mode)
@@ -328,7 +382,7 @@
                     (substatement-open . 0))))
 
     (defun ah:java-mode-hook ()
-      (remove-hook 'before-save-hook 'ah/cleanup-buffer-safe 'local)
+      (remove-hook 'before-save-hook 'ah:cleanup-buffer-safe 'local)
 
       (c-set-style "adam-java-style")
       (c-set-offset 'arglist-cont-nonempty '+)
@@ -336,12 +390,10 @@
       (c-set-offset 'arglist-close 0)
       (c-set-offset 'statement-cont '+)
       (setq c-basic-offset 4
-            tab-width 8
+            tab-width 4
             indent-tabs-mode t))
 
     (add-hook 'java-mode-hook 'ah:java-mode-hook)))
 
-(use-package rainbow-delimiters
-  :defer t)
 
 (provide 'ah-modes)

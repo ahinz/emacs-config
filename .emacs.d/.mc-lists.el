@@ -3,8 +3,13 @@
 
 (setq mc/cmds-to-run-for-all
       '(
+        ah:smart-start-of-line
+        c-electric-brace
         c-electric-delete-forward
         c-electric-paren
+        c-electric-semi&comma
+        downcase-region
+        end-of-buffer
         haskell-indentation-delete-char
         insert-parentheses
         iy-go-to-char
@@ -13,8 +18,10 @@
         paredit-backward-kill-word
         paredit-doublequote
         paredit-forward-delete
+        paredit-forward-kill-word
         paredit-forward-slurp-sexp
         paredit-kill
+        paredit-newline
         paredit-open-round
         paredit-open-square
         paredit-splice-sexp
@@ -24,6 +31,7 @@
         smex
         sp--self-insert-command
         sp-forward-slurp-sexp
+        upcase-region
         yas-expand
         yas/expand
         ))
