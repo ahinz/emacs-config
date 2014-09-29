@@ -1,51 +1,13 @@
-(add-to-list 'load-path "~/.emacs.d/config")
+(require 'cask "~/.cask/cask.el")
+(cask-initialize)
+(add-to-list 'load-path "~/.emacs.d")
 
-;;
-;; Thanks to:
-;; https://github.com/winterTTr/emacs-of-winterTTr/
-;; https://github.com/magnars/.emacs.d/
-;;
+(define-prefix-command 'local-map)
+(global-set-key (kbd "C-t") 'local-map)
 
-(require 'ah-packages)
-(require 'ah-util)
-(require 'ah-basic)
-(require 'ah-keys)
-(require 'ah-defuns)
 (require 'ah-modes)
-(require 'ah-theme)
 
-(put 'upcase-region 'disabled nil)
 
-;; term
-(defface term-color-black
-  '((t (:foreground "#3f3f3f" :background "#272822")))
-  "Unhelpful docstring.")
-(defface term-color-red
-  '((t (:foreground "#cc9393" :background "#272822")))
-  "Unhelpful docstring.")
-(defface term-color-green
-  '((t (:foreground "#7f9f7f" :background "#272822")))
-  "Unhelpful docstring.")
-(defface term-color-yellow
-  '((t (:foreground "#f0dfaf" :background "#272822")))
-  "Unhelpful docstring.")
-(defface term-color-blue
-  '((t (:foreground "#6d85ba" :background "#272822")))
-  "Unhelpful docstring.")
-(defface term-color-magenta
-  '((t (:foreground "#dc8cc3" :background "#272822")))
-  "Unhelpful docstring.")
-(defface term-color-cyan
-  '((t (:foreground "#93e0e3" :background "#272822")))
-  "Unhelpful docstring.")
-(defface term-color-white
-  '((t (:foreground "#dcdccc" :background "#272822")))
-  "Unhelpful docstring.")
-'(term-default-fg-color ((t (:inherit term-color-white))))
-'(term-default-bg-color ((t (:inherit term-color-black))))
 
-;; ansi-term colors
-(setq ansi-term-color-vector
-  [term term-color-black term-color-red term-color-green term-color-yellow
-    term-color-blue term-color-magenta term-color-cyan term-color-white])
 (put 'downcase-region 'disabled nil)
+(put 'upcase-region 'disabled nil)
