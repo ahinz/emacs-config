@@ -7,6 +7,8 @@
 (files "ah-modes.el")
 
 (depends-on "ace-jump-mode")
+(depends-on "hexrgb")
+(depends-on "jabber" :git "git@github.com:legoscia/emacs-jabber.git")
 (depends-on "change-inner")
 (depends-on "cider")
 (depends-on "clojure-mode" :git "git@github.com:clojure-emacs/clojure-mode.git")
@@ -24,6 +26,7 @@
 (depends-on "scala-mode2")
 (depends-on "smex")
 (depends-on "tempbuf")
+(depends-on "helm")
 (depends-on "use-package")
 (depends-on "yaml-mode")
 (depends-on "yasnippet")

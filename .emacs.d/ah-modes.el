@@ -2,41 +2,59 @@
 
 (use-package ah-tools)
 
-(use-package helm
-  :demand t
-  :bind
-  (("C-x b" . helm-buffers-list))
-
+(use-package jabber
   :init
   (progn
-    (setq helm-buffers-fuzzy-matching 1)
+    (defun ah:jabber-log-hook ()
+      (flyspell-mode))
 
-    ;; Sort with the following:
-    ;; - Pattern is prefix
-    ;; - Timestamp
-    ;; - Bury the active buffer
-    (defun ah:candidate-score (pattern abuffer visible-buffers)
-      (let ((timestamp (with-current-buffer (get-buffer abuffer)
-                         (float-time buffer-display-time)))
-            (prefix-match (if (not (null (string-match-p (format "^%s" pattern) abuffer)))
-                              1000000000
-                            0))
-            (bury-visible (if (member abuffer visible-buffers)
-                              -1000000000
-                            0)))
-        (+ timestamp prefix-match bury-visible)))
+    (add-hook 'jabber-chat-mode-hook 'ah:jabber-log-hook)
 
-    (defun helm-buffers-sort-transformer (candidates _source)
-      (if (string= helm-pattern "")
-          candidates
-        (let ((active-buffers (mapcar (lambda (w)
-                                        (with-current-buffer (window-buffer w)
-                                          (buffer-name)))
-                                      (window-list-1 nil nil nil))))
-          (sort candidates
-                #'(lambda (s1 s2)
-                    (> (ah:candidate-score helm-pattern s1 active-buffers)
-                       (ah:candidate-score helm-pattern s2 active-buffers)))))))))
+    (setq jabber-auto-reconnect t)
+
+    (let ((realpw (get-string-from-file "~/.emacs.d/.gmailpw")))
+      (setq jabber-account-list
+            `(("adam.hinz@quanttus.com"
+               (:password . ,realpw)
+               (:port . 5223)
+               (:network-server . "talk.google.com")
+               (:connection-type . ssl)))))))
+
+;; (use-package helm
+;;   :demand t
+;;   :bind
+;;   (("C-x b" . helm-buffers-list))
+
+;;   :init
+;;   (progn
+;;     (setq helm-buffers-fuzzy-matching 1)
+
+;;     ;; Sort with the following:
+;;     ;; - Pattern is prefix
+;;     ;; - Timestamp
+;;     ;; - Bury the active buffer
+;;     (defun ah:candidate-score (pattern abuffer visible-buffers)
+;;       (let ((timestamp (with-current-buffer (get-buffer abuffer)
+;;                          (float-time buffer-display-time)))
+;;             (prefix-match (if (not (null (string-match-p (format "^%s" pattern) abuffer)))
+;;                               1000000000
+;;                             0))
+;;             (bury-visible (if (member abuffer visible-buffers)
+;;                               -1000000000
+;;                             0)))
+;;         (+ timestamp prefix-match bury-visible)))
+
+;;     (defun helm-buffers-sort-transformer (candidates _source)
+;;       (if (string= helm-pattern "")
+;;           candidates
+;;         (let ((active-buffers (mapcar (lambda (w)
+;;                                         (with-current-buffer (window-buffer w)
+;;                                           (buffer-name)))
+;;                                       (window-list-1 nil nil nil))))
+;;           (sort candidates
+;;                 #'(lambda (s1 s2)
+;;                     (> (ah:candidate-score helm-pattern s1 active-buffers)
+;;                        (ah:candidate-score helm-pattern s2 active-buffers)))))))))
 
 (use-package ah-config
   :demand t
@@ -48,6 +66,7 @@
    ("C-a" . ah:smart-start-of-line)))
 
 (use-package emacs-lisp-mode
+  :demand t
   :init
   (progn
     (put 'use-package 'lisp-indent-function 'defun)
@@ -99,6 +118,9 @@
     (put-clojure-indent 'ul 'defun)
     (put-clojure-indent 'li 'defun)
 
+    (put-clojure-indent 'emit-bolt! 'defun)
+    (put-clojure-indent 'execute 'defun)
+
     (add-hook 'clojure-mode-hook 'paredit-mode)
     (add-hook 'clojure-mode-hook 'rainbow-delimiters-mode)))
 
@@ -107,10 +129,19 @@
 
 (use-package erc
   :init
-  (setq erc-auto-query 'buffer
-        erc-autojoin-channels-alist
-        '(("freenode.net" "#okfn" "#scala" "#opentreemap"
-           "#opendatacatalog" "#pycsw" "#geopython" "#geotrellis"))))
+  (progn
+    (setq
+     erc-modules '(pcomplete netsplit fill match track completion readonly networks ring autojoin noncommands irccontrols move-to-prompt stamp menu list)
+     erc-auto-query 'buffer
+     erc-autojoin-channels-alist
+     '(("freenode.net" "#okfn" "#scala" "#opentreemap"
+        "#opendatacatalog" "#pycsw" "#geopython" "#geotrellis")))
+
+    ;; remove button module because it breaks in emacs 25
+    ;; and fix this screwy function
+    (defun erc-button-add-nickname-buttons (entry))
+
+    (erc-update-modules)))
 
 
 (use-package expand-region
@@ -206,6 +237,9 @@
       (setq fill-column 72)
       (flyspell-mode))
 
+    (add-hook 'git-commit-mode-hook 'ah:magit-log-hook)
+
+    ;; This may be obsolete...
     (add-hook 'magit-log-edit-mode-hook 'ah:magit-log-hook)))
 
 (use-package markdown-mode

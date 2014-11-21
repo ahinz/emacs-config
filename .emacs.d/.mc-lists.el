@@ -9,6 +9,7 @@
         c-electric-paren
         c-electric-semi&comma
         downcase-region
+        electric-newline-and-maybe-indent
         end-of-buffer
         haskell-indentation-delete-char
         insert-parentheses
