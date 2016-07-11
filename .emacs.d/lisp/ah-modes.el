@@ -14,11 +14,13 @@
 
     (let ((realpw (get-string-from-file "~/.emacs.d/.gmailpw")))
       (setq jabber-account-list
-            `(("adam.hinz@quanttus.com"
+            `(("hinz.adam@gmail.com"
                (:password . ,realpw)
                (:port . 5223)
                (:network-server . "talk.google.com")
-               (:connection-type . ssl)))))))
+               (:connection-type . ssl)))))
+
+    (jabber-connect-all)))
 
 ;; (use-package helm
 ;;   :demand t
@@ -56,6 +58,12 @@
 ;;                     (> (ah:candidate-score helm-pattern s1 active-buffers)
 ;;                        (ah:candidate-score helm-pattern s2 active-buffers)))))))))
 
+(use-package prog-mode
+  :config
+  (progn
+    (add-hook 'prog-mode-hook 'flyspell-prog-mode)))
+
+
 (use-package ah-config
   :demand t
   :bind
@@ -65,13 +73,13 @@
    ("C-c M-e" . ah:eval-and-swap-mark)
    ("C-a" . ah:smart-start-of-line)))
 
-(use-package emacs-lisp-mode
-  :demand t
-  :init
-  (progn
-    (put 'use-package 'lisp-indent-function 'defun)
-    (add-hook 'emacs-lisp-mode-hook 'paredit-mode)
-    (add-hook 'emacs-lisp-mode-hook 'rainbow-delimiters-mode)))
+;; (use-package emacs-lisp-mode
+;;   :demand t
+;;   :init
+;;   (progn
+;;     (put 'use-package 'lisp-indent-function 'defun)
+;;     (add-hook 'emacs-lisp-mode-hook 'paredit-mode)
+;;     (add-hook 'emacs-lisp-mode-hook 'rainbow-delimiters-mode)))
 
 (use-package use-package
   :config (setq use-package-verbose t)
@@ -103,9 +111,15 @@
 ;;(use-package paredit-mode)
 ;;(use-package rainbow-delimiters)
 
+(defun clj-refactor-hook ()
+  (clj-refactor-mode 1)
+  (yas-minor-mode 1) ; for adding require/use/import
+  (cljr-add-keybindings-with-prefix "C-c C-m"))
+
 (use-package clojure-mode
-  :init
+  :config
   (progn
+    (put-clojure-indent 'against-background 'defun)
     (put-clojure-indent 'nextTuple 'defun)
     (put-clojure-indent 'table 'defun)
     (put-clojure-indent 'tr 'defun)
@@ -118,9 +132,16 @@
     (put-clojure-indent 'ul 'defun)
     (put-clojure-indent 'li 'defun)
 
+    (put-clojure-indent 'GET 'defun)
+    (put-clojure-indent 'POST 'defun)
+    (put-clojure-indent 'fact 'defun)
+    (put-clojure-indent 'routes 'defun)
+
     (put-clojure-indent 'emit-bolt! 'defun)
     (put-clojure-indent 'execute 'defun)
+    (put-clojure-indent 'elmt 'defun)
 
+    (add-hook 'clojure-mode-hook #'clj-refactor-hook)
     (add-hook 'clojure-mode-hook 'paredit-mode)
     (add-hook 'clojure-mode-hook 'rainbow-delimiters-mode)))
 
@@ -139,9 +160,10 @@
 
     ;; remove button module because it breaks in emacs 25
     ;; and fix this screwy function
-    (defun erc-button-add-nickname-buttons (entry))
+    ;(defun erc-button-add-nickname-buttons (entry))
 
-    (erc-update-modules)))
+    ;(erc-update-modules)
+    (ah:default-erc)))
 
 
 (use-package expand-region
@@ -154,11 +176,11 @@
         ispell-extra-args '("--sug-mode=ultra")
         flyspell-issue-welcome-flag nil))
 
-(use-package c-mode
-  :demand t
-  :init
-  (global-set-key (kbd "C-c o") 'ff-find-other-file)
-  :bind ("C-c o" . ff-find-other-file))
+;; (use-package c-mode
+;;   :demand t
+;;   :init
+;;   (global-set-key (kbd "C-c o") 'ff-find-other-file)
+;;   :bind ("C-c o" . ff-find-other-file))
 
 (use-package haskell-mode
   :defer t
@@ -358,76 +380,83 @@
   :mode (("\\.scala$" . scala-mode)
          ("\\.sbt$" . scala-mode)))
 
+(use-package css-mode
+  :commands css-mode
+  :defer t
+  :init
+  (setq css-indent-offset 2))
+
+
 (use-package sbt-mode
   :commands (sbt-find-definitions sbt-run-previous-command sbt-start)
   :init
   (setq sbt:program-name "/usr/local/bin/sbt"))
 
-(use-package objc-mode
-  :config
-  (progn
-    (defun ah:obj-editing ()
-      (auto-complete-mode t)
-      (setq indent-tabs-mode nil)
-      (setq c-indent-level 4)
-      (setq c-basic-offset 4))
+;; (use-package objc-mode
+;;   :config
+;;   (progn
+;;     (defun ah:obj-editing ()
+;;       (auto-complete-mode t)
+;;       (setq indent-tabs-mode nil)
+;;       (setq c-indent-level 4)
+;;       (setq c-basic-offset 4))
 
-    ;; Editing objc in a reasonable way...
-    (setq objc-mode-hook 'ah:obj-editing)
+;;     ;; Editing objc in a reasonable way...
+;;     (setq objc-mode-hook 'ah:obj-editing)
 
-    (add-to-list 'magic-mode-alist
-                 `(,(lambda ()
-                      (and (string= (file-name-extension buffer-file-name) "h")
-                           (re-search-forward "@\\<interface\\>"
-                                              magic-mode-regexp-match-limit t)))
-                   . objc-mode))
+;;     (add-to-list 'magic-mode-alist
+;;                  `(,(lambda ()
+;;                       (and (string= (file-name-extension buffer-file-name) "h")
+;;                            (re-search-forward "@\\<interface\\>"
+;;                                               magic-mode-regexp-match-limit t)))
+;;                    . objc-mode))
 
-    (setq cc-other-file-alist `(("\\.m$" (".h"))
-                                ("\\.h$" (".m"))))
+;;     (setq cc-other-file-alist `(("\\.m$" (".h"))
+;;                                 ("\\.h$" (".m"))))
 
-    (add-hook 'c-mode-common-hook
-              (lambda ()
-                (local-set-key (kbd "C-C o") 'ff-find-other-file)))))
+;;     (add-hook 'c-mode-common-hook
+;;               (lambda ()
+;;                 (local-set-key (kbd "C-C o") 'ff-find-other-file)))))
 
-(use-package multi-web-mode
-  :config
-  (progn
-    (setq mweb-default-major-mode 'html-mode)
-    (setq mweb-tags '((php-mode "<\\?php\\|<\\? \\|<\\?=" "\\?>")
-                      (js-mode "<script type=\"text/javascript\"[^>]*>" "</script>")
-                      (css-mode "<style +type=\"text/css\"[^>]*>" "</style>")))
-    (setq mweb-filename-extensions '("php" "htm" "html" "ctp" "phtml" "php4" "php5"))
-    (multi-web-global-mode 1)))
+;; (use-package multi-web-mode
+;;   :config
+;;   (progn
+;;     (setq mweb-default-major-mode 'html-mode)
+;;     (setq mweb-tags '((php-mode "<\\?php\\|<\\? \\|<\\?=" "\\?>")
+;;                       (js-mode "<script type=\"text/javascript\"[^>]*>" "</script>")
+;;                       (css-mode "<style +type=\"text/css\"[^>]*>" "</style>")))
+;;     (setq mweb-filename-extensions '("php" "htm" "html" "ctp" "phtml" "php4" "php5"))
+;;     (multi-web-global-mode 1)))
 
-(use-package java-mode
-  :config
-  (progn
-    (c-add-style "adam-java-style"
-                 '("java"
-                   (c-basic-offset . 4)
-                   (arglist-cont-nonempty . +)
-                   (c-hanging-braces-alist
-                    ((substatement-open)
-                     (block-close . c-snug-do-while)
-                     (extern-lang-open after)
-                     (inexpr-class-open after)
-                     (inexpr-class-close before)))
-                   (c-offsets-alist
-                    (substatement-open . 0))))
+;; (use-package java-mode
+;;   :config
+;;   (progn
+;;     (c-add-style "adam-java-style"
+;;                  '("java"
+;;                    (c-basic-offset . 4)
+;;                    (arglist-cont-nonempty . +)
+;;                    (c-hanging-braces-alist
+;;                     ((substatement-open)
+;;                      (block-close . c-snug-do-while)
+;;                      (extern-lang-open after)
+;;                      (inexpr-class-open after)
+;;                      (inexpr-class-close before)))
+;;                    (c-offsets-alist
+;;                     (substatement-open . 0))))
 
-    (defun ah:java-mode-hook ()
-      (remove-hook 'before-save-hook 'ah:cleanup-buffer-safe 'local)
+;;     (defun ah:java-mode-hook ()
+;;       (remove-hook 'before-save-hook 'ah:cleanup-buffer-safe 'local)
 
-      (c-set-style "adam-java-style")
-      (c-set-offset 'arglist-cont-nonempty '+)
-      (c-set-offset 'arglist-intro '+)
-      (c-set-offset 'arglist-close 0)
-      (c-set-offset 'statement-cont '+)
-      (setq c-basic-offset 4
-            tab-width 4
-            indent-tabs-mode t))
+;;       (c-set-style "adam-java-style")
+;;       (c-set-offset 'arglist-cont-nonempty '+)
+;;       (c-set-offset 'arglist-intro '+)
+;;       (c-set-offset 'arglist-close 0)
+;;       (c-set-offset 'statement-cont '+)
+;;       (setq c-basic-offset 4
+;;             tab-width 4
+;;             indent-tabs-mode t))
 
-    (add-hook 'java-mode-hook 'ah:java-mode-hook)))
+;;     (add-hook 'java-mode-hook 'ah:java-mode-hook)))
 
 
 (provide 'ah-modes)
