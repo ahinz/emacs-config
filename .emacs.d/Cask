@@ -1,17 +1,19 @@
 (source gnu)
 (source melpa)
-(source marmalade)
+;(source marmalade)
 
 (package "ah-emacs" "0.1.0" "Adam's Emacs config")
 
 (files "ah-modes.el")
 
+(depends-on "ido-completing-read+")
 (depends-on "ace-jump-mode")
 (depends-on "hexrgb")
 (depends-on "jabber" :git "git@github.com:legoscia/emacs-jabber.git")
 (depends-on "change-inner")
 (depends-on "cider")
 (depends-on "clojure-mode" :git "git@github.com:clojure-emacs/clojure-mode.git")
+(depends-on "clj-refactor")
 (depends-on "color-theme-sanityinc-tomorrow")
 (depends-on "expand-region")
 (depends-on "haskell-mode")

@@ -8,6 +8,7 @@
         c-electric-delete-forward
         c-electric-paren
         c-electric-semi&comma
+        cljr-slash
         downcase-region
         electric-newline-and-maybe-indent
         end-of-buffer
@@ -16,16 +17,23 @@
         iy-go-to-char
         iy-go-to-char--command
         kill-region
+        org-beginning-of-line
+        org-end-of-line
+        org-return-indent
+        org-self-insert-command
         paredit-backward-kill-word
+        paredit-close-square
         paredit-doublequote
         paredit-forward-delete
         paredit-forward-kill-word
         paredit-forward-slurp-sexp
         paredit-kill
         paredit-newline
+        paredit-open-curly
         paredit-open-round
         paredit-open-square
         paredit-splice-sexp
+        paredit-wrap-round
         python-indent-dedent-line-backspace
         python-indent-electric-colon
         sgml-slash
