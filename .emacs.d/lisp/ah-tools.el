@@ -1,3 +1,10 @@
+(defun ah:enable-infinity ()
+  (interactive)
+  (font-lock-add-keywords
+   'clojure-mode `(("\\(nil\\)"
+                    (0 (progn (compose-region (match-beginning 1)
+                                              (match-end 1) ?∞)
+                              nil))))))
 
 (defun ah:cleanup-buffer-safe ()
   (interactive)
@@ -67,5 +74,10 @@
         (ps-line-number-step 10)
         (ps-print-color-p 'black-white))
     (ps-print-buffer-with-faces)))
+
+(defun ah:start-repl ()
+  (interactive)
+  (setq default-directory "/home/adam/src/zensight/server/")
+  (start-process "repl" "**repl**" "lein" "with-profiles" "+product" "repl" ":headless" ":port" "44553"))
 
 (provide 'ah-tools)
