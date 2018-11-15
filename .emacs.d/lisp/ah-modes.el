@@ -5,6 +5,10 @@
   (("M-<left>" . ah:shift-left)
    ("M-<right>" . ah:shift-right)))
 
+(use-package python
+  :config
+  (setq python-indent 2))
+
 (use-package projectile
   :ensure t
   :bind-keymap
@@ -15,7 +19,8 @@
 
 (use-package ag
   :config
-  (setq ag-executable "/usr/local/bin/ag"))
+  (when (file-exists-p "/usr/local/bin/ag")
+    (setq ag-executable "/usr/local/bin/ag")))
 
 (use-package coffee-mode
   :config
