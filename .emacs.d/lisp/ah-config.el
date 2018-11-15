@@ -46,9 +46,6 @@
 
         "%M"))
 
-(setq-default header-line-format
-      `((:eval erc-modified-channels-object)))
-
 (define-prefix-command 'local-map)
 
 ;; Various superfluous white-space. Just say no.
@@ -71,16 +68,5 @@
   (eval-region (mark) (point))
   (exchange-point-and-mark)
   (deactivate-mark))
-
-(defun ah:jabber-go-otr (jc jid)
-  "Go off the record with the given jid"
-  (interactive (list (jabber-read-account)
-                     (jabber-read-jid-completing "Go off the record with: " nil nil nil 'bare-or-muc t)))
-  (jabber-send-iq jc "adam.hinz@quanttus.com" "set"
-                  `(query ((xmlns . "google:nosave"))
-                          (item ((xmlns . "google:nosave")
-                                 (jid . ,jid)
-                                 (value . "enabled"))))
-                  nil nil nil nil))
 
 (provide 'ah-config)

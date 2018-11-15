@@ -1,26 +1,25 @@
 (require 'use-package)
 
-(use-package ah-tools)
+(use-package ah-tools
+  :bind
+  (("M-<left>" . ah:shift-left)
+   ("M-<right>" . ah:shift-right)))
 
-(use-package jabber
-  :init
-  (progn
-    (defun ah:jabber-log-hook ()
-      (flyspell-mode))
+(use-package projectile
+  :ensure t
+  :bind-keymap
+  ("C-c p" . projectile-command-map)
+  :config
+  (projectile-global-mode)
+  (setq projectile-enable-caching t))
 
-    (add-hook 'jabber-chat-mode-hook 'ah:jabber-log-hook)
+(use-package ag
+  :config
+  (setq ag-executable "/usr/local/bin/ag"))
 
-    (setq jabber-auto-reconnect t)
-
-    (let ((realpw (get-string-from-file "~/.emacs.d/.gmailpw")))
-      (setq jabber-account-list
-            `(("hinz.adam@gmail.com"
-               (:password . ,realpw)
-               (:port . 5223)
-               (:network-server . "talk.google.com")
-               (:connection-type . ssl)))))
-
-    (jabber-connect-all)))
+(use-package coffee-mode
+  :config
+  (setq coffee-tab-width 2))
 
 ;; (use-package helm
 ;;   :demand t
@@ -148,24 +147,6 @@
 (use-package clojure-test-mode
   :defer t)
 
-(use-package erc
-  :init
-  (progn
-    (setq
-     erc-modules '(pcomplete netsplit fill match track completion readonly networks ring autojoin noncommands irccontrols move-to-prompt stamp menu list)
-     erc-auto-query 'buffer
-     erc-autojoin-channels-alist
-     '(("freenode.net" "#okfn" "#scala" "#opentreemap"
-        "#opendatacatalog" "#pycsw" "#geopython" "#geotrellis")))
-
-    ;; remove button module because it breaks in emacs 25
-    ;; and fix this screwy function
-    ;(defun erc-button-add-nickname-buttons (entry))
-
-    ;(erc-update-modules)
-    (ah:default-erc)))
-
-
 (use-package expand-region
   :defer t
   :bind ("C-t C-t" . er/expand-region))
@@ -173,7 +154,6 @@
 (use-package flyspell
   :init
   (setq ispell-program-name "aspell"
-        ispell-extra-args '("--sug-mode=ultra")
         flyspell-issue-welcome-flag nil))
 
 ;; (use-package c-mode
@@ -193,12 +173,7 @@
   :config
   (progn
     (global-set-key (kbd "C-x C-b") 'ibuffer)
-    (global-set-key (kbd "C-c C-l e") 'ah:erc-buffers)
     (global-set-key (kbd "C-c C-l t") 'ah:term-buffers)
-
-    (defun ah:erc-buffers ()
-      (interactive)
-      (ah:list-buffers-with-mode 'erc-mode))
 
     (defun ah:term-buffers ()
       (interactive)
@@ -284,13 +259,6 @@
   :defer t
   :mode ("\\.yml$" . yaml-mode))
 
-(use-package tempbuf
-  :init
-  (progn
-    (add-hook 'help-mode-hook 'turn-on-tempbuf-mode)
-    (add-hook 'grep-mode-hook 'turn-on-tempbuf-mode)
-    (add-hook 'dired-mode-hook 'turn-on-tempbuf-mode)))
-
 (use-package smex
   :bind ("M-x" . smex)
   :config
@@ -308,7 +276,6 @@
   :defer t
   :init (yas-global-mode 1)
   :bind ("C-c e" . yas-expand))
-
 
 (use-package term
   :commands ansi-term
@@ -368,11 +335,7 @@
           [term term-color-black term-color-red term-color-green term-color-yellow
                 term-color-blue term-color-magenta term-color-cyan term-color-white])
 
-    (ah:open-term "tty0")
-    (ah:open-term "tty1")
-    (ah:open-term "tty2")
-    (ah:open-term "tty3")
-    (ah:open-term "tty4")))
+    ))
 
 (use-package scala-mode2
   :commands scala-mode

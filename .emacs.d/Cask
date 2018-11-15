@@ -6,10 +6,11 @@
 
 (files "ah-modes.el")
 
+(depends-on "projectile")
+(depends-on "ag")
+(depends-on "coffee-mode")
 (depends-on "ido-completing-read+")
 (depends-on "ace-jump-mode")
-(depends-on "hexrgb")
-(depends-on "jabber" :git "git@github.com:legoscia/emacs-jabber.git")
 (depends-on "change-inner")
 (depends-on "cider")
 (depends-on "clojure-mode" :git "git@github.com:clojure-emacs/clojure-mode.git")
@@ -25,9 +26,7 @@
 (depends-on "paredit")
 (depends-on "rainbow-delimiters")
 (depends-on "sbt-mode")
-(depends-on "scala-mode2")
 (depends-on "smex")
-(depends-on "tempbuf")
 (depends-on "helm")
 (depends-on "use-package")
 (depends-on "yaml-mode")
