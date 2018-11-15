@@ -6,7 +6,11 @@
 ;; You may delete these explanatory comments.
 (package-initialize)
 
-(require 'cask "/usr/local/share/emacs/site-lisp/cask/cask.el")
+(if (file-directory-p "/usr/local/share/emacs/site-lisp/cask/")
+    (require 'cask "/usr/local/share/emacs/site-lisp/cask/cask.el"))
+(if (file-directory-p (expand-file-name "~/.cask/"))
+    (require 'cask (expand-file-name "~/.cask//cask.el")))
+
 (cask-initialize)
 
 ;; Grab homebrew executables
