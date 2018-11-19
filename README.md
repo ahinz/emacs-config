@@ -19,3 +19,9 @@ ln -s ~/emacs-config/.emacs.d .emacs.d
 cd .emacs.d
 cask install
 ```
+
+## Remap Keys on Linux
+
+```
+setxkbmap -layout us -option ctrl:nocaps
+```
