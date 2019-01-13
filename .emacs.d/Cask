@@ -12,9 +12,9 @@
 (depends-on "ido-completing-read+")
 (depends-on "ace-jump-mode")
 (depends-on "change-inner")
-(depends-on "cider")
+;; New version doesn't work with debug-repl
+;; (depends-on "cider")
 (depends-on "clojure-mode" :git "git@github.com:clojure-emacs/clojure-mode.git")
-(depends-on "clj-refactor")
 (depends-on "color-theme-sanityinc-tomorrow")
 (depends-on "expand-region")
 (depends-on "haskell-mode")

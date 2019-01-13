@@ -37,11 +37,7 @@
  '(backup-directory-alist (quote ((".*" . "~/.emacs.d/backups/"))))
  '(package-selected-packages
    (quote
-    (gherkin-mode yaml-mode use-package smex sbt-mode rainbow-delimiters projectile markdown-mode magit js2-mode jabber iy-go-to-char ido-completing-read+ helm haskell-mode color-theme-sanityinc-tomorrow coffee-mode clj-refactor change-inner ag ace-jump-mode)))
+    (gherkin-mode yaml-mode use-package smex sbt-mode rainbow-delimiters projectile markdown-mode magit js2-mode jabber iy-go-to-char ido-completing-read+ helm haskell-mode color-theme-sanityinc-tomorrow coffee-mode change-inner ag ace-jump-mode)))
  '(tramp-syntax (quote default) nil (tramp)))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
+
+

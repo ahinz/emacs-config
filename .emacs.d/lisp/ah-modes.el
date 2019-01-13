@@ -115,11 +115,6 @@
 ;;(use-package paredit-mode)
 ;;(use-package rainbow-delimiters)
 
-(defun clj-refactor-hook ()
-  (clj-refactor-mode 1)
-  (yas-minor-mode 1) ; for adding require/use/import
-  (cljr-add-keybindings-with-prefix "C-c C-m"))
-
 (use-package clojure-mode
   :config
   (progn
@@ -145,7 +140,6 @@
     (put-clojure-indent 'execute 'defun)
     (put-clojure-indent 'elmt 'defun)
 
-    (add-hook 'clojure-mode-hook #'clj-refactor-hook)
     (add-hook 'clojure-mode-hook 'paredit-mode)
     (add-hook 'clojure-mode-hook 'rainbow-delimiters-mode)))
 

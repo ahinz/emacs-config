@@ -1,5 +1,16 @@
 (global-auto-revert-mode t)
 
+(add-to-list 'load-path "~/src/cider")
+(load "cider-autoloads" t t)
+
+;; Sadness https://debbugs.gnu.org/cgi/bugreport.cgi?bug=25228#152
+(define-key special-event-map [config-changed-event] #'ignore)
+
+;; Force the server to use tcp for work-from-mac
+(setq server-use-tcp t)
+(setq server-host "0.0.0.0")
+(setq server-port 7788)
+
 (set-face-attribute 'default nil :height 170)
 (set 'inhibit-startup-screen t)
 (setq make-backup-files nil)
